@@ -219,7 +219,7 @@ textarea{width:100%;min-height:90px;font:inherit;font-size:15px;padding:10px 12p
 <div class="topbar"><div class="in">
   <div class="brand">Atlas of Imagined Futures<small>prototype</small></div>
   <nav class="anchors" aria-label="Sections"><a href="#explore">Explore</a><a href="#countries">Countries</a><a href="#compare">Compare</a><a href="#wall">Wall</a><a href="#methods">Methods</a></nav>
-  <div class="livecount"><span class="pulse" aria-hidden="true"></span><span id="count">0</span> futures · 15 countries</div>
+  <div class="livecount"><span class="pulse" aria-hidden="true"></span><span id="count">0</span> futures · 25 countries</div>
   <div class="mode" role="group" aria-label="Data mode"><button type="button" class="on" id="modeSim">Simulated data</button><button type="button" disabled title="Available once Aim 1 data are deposited (Spring 2028)">Live corpus · 2028</button></div>
 </div></div>
 
@@ -240,7 +240,7 @@ textarea{width:100%;min-height:90px;font:inherit;font-size:15px;padding:10px 12p
       <div class="enter"><button type="button" class="primary" id="enter">Enter the Atlas</button><a href="#explore" class="small" style="font-size:13px;color:var(--ink-2)">Skip to the workbench</a></div>
     </header>
     <div class="steps" id="steps">
-      <div class="step" data-step="0"><div class="num">01 · Everyone</div><h2>Fifteen countries. One question.</h2><p>“Describe the future you imagine for yourself and the people you care about.” Asked in the national language, answered in people's own words, and placed on the map where each person lives.</p><div class="big"><span data-count="people">0</span><small>futures so far</small></div></div>
+      <div class="step" data-step="0"><div class="num">01 · Everyone</div><h2>Twenty-five countries. One question.</h2><p>“Describe the future you imagine for yourself and the people you care about.” Asked in the national language, answered in people's own words, and placed on the map where each person lives.</p><div class="big"><span data-count="people">0</span><small>futures so far</small></div></div>
       <div class="step" data-step="1"><div class="num">02 · How far</div><h2>Some look ahead a few years. Some look a century.</h2><p>Each person is now colored by temporal horizon, from near to far. Countries glow by how far their people look, and the differences are not where you might expect.</p><div class="big"><span data-count="far">0</span>%<small>picture thirty years ahead or more</small></div></div>
       <div class="step" data-step="2"><div class="num">03 · Who is there</div><h2>Who is in the future you imagine?</h2><p>Lit here are the people whose futures reach past their own lifetime to people not yet born. The traditions a person holds predict this more than their age or income.</p><div class="big"><span data-count="unborn">0</span>%<small>include people not yet born</small></div></div>
       <div class="step" data-step="3"><div class="num">04 · What it draws on</div><h2>Futures are built from inherited images.</h2><p>Lit now: everyone whose future draws on a divine plan. Religious, philosophical, and narrative traditions supply the schemas people think with, and the Atlas makes those schemas searchable.</p><div class="big"><span data-count="divine">0</span>%<small>draw on a divine plan</small></div></div>
@@ -291,7 +291,7 @@ textarea{width:100%;min-height:90px;font:inherit;font-size:15px;padding:10px 12p
 </section>
 
 <section class="section" id="countries">
-  <div class="section-h"><h2><span class="chapter">02</span>Countries</h2><span class="meta">Fifteen survey countries · how far ahead people look</span></div>
+  <div class="section-h"><h2><span class="chapter">02</span>Countries</h2><span class="meta">Twenty-five survey countries · how far ahead people look</span></div>
   <div class="panel">
     <div class="hint" style="padding:12px 14px 0">Each small chart is the distribution of temporal horizon in that country, in years ahead: 5 to 10, 15 to 25, 30 to 50, and 55 or more. Click one to select it on the map.</div>
     <div class="strip" id="strip"></div>
@@ -347,8 +347,8 @@ textarea{width:100%;min-height:90px;font:inherit;font-size:15px;padding:10px 12p
 <section class="section" id="methods">
   <div class="section-h"><h2><span class="chapter">05</span>Methods</h2><span class="meta">How the Atlas is built</span></div>
   <div class="panel methods">
-    <div><h3>Data</h3><p>In this prototype every respondent is simulated: a seeded generator draws each person's country, tradition, demographics, schemas, horizon, and answer text from distributions chosen to resemble plausible survey data. Nothing here is a real response.</p><p>In the live Atlas the corpus is the Aim 1 survey: about 1,000 adults in each of fifteen countries, answering the same open-ended prompts in their own language, with the Future Imagination and Traditions Inventory and present-outcome measures. New waves and new countries are added as the research program grows.</p></div>
-    <div><h3>Scoring</h3><p>Each response is scored on six dimensions, each 0 to 100: temporal horizon, richness, content and valence, agency, social boundary, and narrative form. In the live Atlas, classifiers trained on a human-coded subset produce these scores and are validated by language and by country before any number is shown. Schemas are the images, obligations, and story forms a response draws on, coded against the project codebook.</p></div>
+    <div><h3>Data</h3><p>In this prototype every respondent is simulated: a seeded generator draws each person's country, tradition, demographics, schemas, horizon, and answer text from distributions chosen to resemble plausible survey data. Nothing here is a real response.</p><p>In the live Atlas the corpus is the Aim 1 survey: 17,500 adults across twenty-five countries, 1,000 in each of ten countries and 500 in each of the other fifteen, answering the same open-ended prompts in their own language, with the Prospection and Traditions Inventory and present-outcome measures. New waves and new countries are added as the research program grows.</p></div>
+    <div><h3>Scoring</h3><p>Each response is scored on the six dimensions of prospection, each 0 to 100: temporal horizon, richness, content and valence, agency, social boundary, and narrative form. In the live Atlas, classifiers trained on a human-coded subset produce these scores and are validated by language and by country before any number is shown. Schemas are the images, obligations, and story forms a response draws on, coded against the project codebook.</p></div>
     <div><h3>Future similarity index</h3><p>A visitor's answers are compared with every respondent as a weighted sum: <code>0.3</code> overlap of schemas and themes (text and ticked boxes), <code>0.12</code> each for closeness of horizon, who is included, hopefulness, and agency, <code>0.12</code> for matching narrative form, and <code>0.10</code> for richness. People above <code>0.72</code> are counted as sharing the visitor's future. In the live Atlas the text comparison uses the same multilingual sentence embeddings as the research, so a description in any language can be placed beside futures written in any other.</p></div>
     <div><h3>Privacy</h3><p>Respondents are shown only as de-identified avatars with age band, gender, income band, education, affiliation, and a place at the level of a city or region. Answers are shown as written but with names and identifying details removed before deposit. Visitors' answers to the questionnaire are compared in the browser and never stored.</p></div>
   </div>
@@ -404,7 +404,19 @@ const COUNTRIES = [
  {n:"Thailand", map:"Thailand", lang:"Thai", trad:{Buddhist:.92,Muslim:.05,Other:.03}, w:{cycles:3,community:2,health:2,peace:2,gen:1,prosper:1,learn:1,nature:1,duty:1,tech:1,divine:.5,decline:.5}, horizon:[5,40], places:["Bangkok","Chiang Mai","Isan","Khon Kaen","the south"]},
  {n:"Japan", map:"Japan", lang:"Japanese", trad:{Unaffiliated:.6,Buddhist:.33,Other:.07}, w:{tech:3,decline:2,health:2,nature:2,community:1,gen:1,peace:1,learn:1,prosper:1,cycles:1,duty:1,divine:.2}, horizon:[5,50], places:["Tokyo","Osaka","Sendai","Fukuoka","a town in Hokkaido","Kyoto"]},
  {n:"South Korea", map:"South Korea", lang:"Korean", trad:{Unaffiliated:.5,Christian:.3,Buddhist:.2}, w:{tech:3,prosper:2,learn:2,decline:2,health:1,gen:1,community:1,peace:1,nature:1,duty:1,divine:1,cycles:.5}, horizon:[5,40], places:["Seoul","Busan","Daegu","Gwangju","Incheon"]},
+ {n:"Canada", map:"Canada", lang:"English and French", trad:{Christian:.53,Unaffiliated:.35,Other:.12}, w:{nature:3,tech:2,peace:2,gen:2,learn:2,health:2,prosper:1,community:1,duty:1,decline:1,divine:.5,cycles:.3}, horizon:[5,50], places:["Toronto","Vancouver","Montréal","Calgary","a town in Nova Scotia"]},
+ {n:"Mexico", map:"Mexico", lang:"Spanish", trad:{Christian:.89,Unaffiliated:.1,Other:.01}, w:{divine:3,community:3,gen:2,prosper:2,peace:2,health:1,learn:1,nature:1,tech:1,decline:1,duty:1,cycles:.3}, horizon:[5,30], places:["Mexico City","Guadalajara","Monterrey","Oaxaca","our pueblo in Chiapas"]},
+ {n:"Colombia", map:"Colombia", lang:"Spanish", trad:{Christian:.86,Unaffiliated:.1,Other:.04}, w:{divine:3,peace:3,community:2,gen:2,prosper:2,health:1,learn:1,nature:1,tech:1,decline:1,duty:1,cycles:.3}, horizon:[5,30], places:["Bogotá","Medellín","Cali","Barranquilla","the coffee region"]},
+ {n:"Germany", map:"Germany", lang:"German", trad:{Christian:.56,Unaffiliated:.36,Other:.08}, w:{nature:3,tech:2,peace:2,learn:2,gen:2,duty:2,prosper:1,health:1,community:1,decline:1,divine:.3,cycles:.3}, horizon:[5,50], places:["Berlin","Munich","Hamburg","Leipzig","a village in Bavaria"]},
+ {n:"Poland", map:"Poland", lang:"Polish", trad:{Christian:.91,Unaffiliated:.09}, w:{divine:2,community:2,gen:2,prosper:2,peace:2,decline:1,learn:1,health:1,nature:1,tech:1,duty:1,cycles:.3}, horizon:[5,30], places:["Warsaw","Kraków","Gdańsk","Wrocław","the countryside near Lublin"]},
+ {n:"Saudi Arabia", map:"Saudi Arabia", lang:"Arabic", trad:{Muslim:.93,Other:.07}, w:{divine:3,prosper:3,community:2,gen:2,tech:2,peace:1,health:1,learn:1,nature:.5,duty:1,decline:.5,cycles:.3}, horizon:[5,40], places:["Riyadh","Jeddah","Dammam","Mecca","the Najd"]},
+ {n:"Nigeria", map:"Nigeria", lang:"English", trad:{Muslim:.53,Christian:.45,Other:.02}, w:{divine:3,prosper:3,gen:2,community:2,learn:2,peace:2,health:1,duty:1,tech:1,nature:.5,decline:1,cycles:.3}, horizon:[5,40], places:["Lagos","Abuja","Kano","Ibadan","our village in Enugu"]},
+ {n:"Kenya", map:"Kenya", lang:"English and Swahili", trad:{Christian:.85,Muslim:.11,Other:.04}, w:{divine:3,gen:3,learn:2,community:2,prosper:2,peace:1,health:1,nature:1,tech:1,duty:1,decline:.5,cycles:.3}, horizon:[5,40], places:["Nairobi","Mombasa","Kisumu","Nakuru","our shamba in the Rift Valley"]},
+ {n:"Vietnam", map:"Vietnam", lang:"Vietnamese", trad:{Unaffiliated:.66,Buddhist:.24,Christian:.08,Other:.02}, w:{prosper:3,learn:3,community:2,gen:2,tech:2,health:1,peace:1,nature:1,cycles:1,duty:1,divine:.5,decline:.5}, horizon:[5,40], places:["Hanoi","Ho Chi Minh City","Da Nang","Hue","the Mekong Delta"]},
+ {n:"Malaysia", map:"Malaysia", lang:"Malay and English", trad:{Muslim:.64,Buddhist:.19,Christian:.09,Hindu:.06,Other:.02}, w:{divine:3,community:2,prosper:2,learn:2,gen:2,tech:1,peace:1,health:1,nature:1,duty:1,decline:.5,cycles:.5}, horizon:[5,40], places:["Kuala Lumpur","Penang","Johor Bahru","Kota Kinabalu","our kampung in Kelantan"]},
 ];
+// sample tiers in the Aim 1 design: N = 1,000 in ten countries, N = 500 in fifteen
+const BIG = new Set(["United States","Brazil","Sweden","Germany","Turkey","Egypt","India","Indonesia","South Korea","Japan"]);
 const C = Object.fromEntries(COUNTRIES.map(c => [c.n, c]));
 const CIDX = Object.fromEntries(COUNTRIES.map((c, i) => [c.n, i]));
 // place coordinates [lon, lat, spread in degrees]: cities get a tight spread, regions a wider one
@@ -424,6 +436,16 @@ const PLACE = {
  "Bangkok":[100.5,13.75,.35],"Chiang Mai":[98.98,18.79,.3],"Isan":[103.0,16.0,1.4],"Khon Kaen":[102.83,16.43,.3],"the south":[99.8,8.0,.9],
  "Tokyo":[139.7,35.68,.4],"Osaka":[135.5,34.69,.3],"Sendai":[140.87,38.27,.3],"Fukuoka":[130.4,33.59,.3],"a town in Hokkaido":[142.5,43.3,.9],"Kyoto":[135.77,35.01,.25],
  "Seoul":[126.98,37.57,.35],"Busan":[129.07,35.18,.3],"Daegu":[128.6,35.87,.25],"Gwangju":[126.85,35.16,.25],"Incheon":[126.7,37.46,.25],
+ "Toronto":[-79.38,43.65,.35],"Vancouver":[-123.12,49.28,.35],"Montréal":[-73.57,45.5,.35],"Calgary":[-114.07,51.05,.3],"a town in Nova Scotia":[-63.5,45.0,1.0],
+ "Mexico City":[-99.13,19.43,.4],"Guadalajara":[-103.35,20.67,.3],"Monterrey":[-100.32,25.67,.3],"Oaxaca":[-96.72,17.07,.3],"our pueblo in Chiapas":[-92.6,16.7,.9],
+ "Bogotá":[-74.07,4.71,.35],"Medellín":[-75.56,6.25,.3],"Cali":[-76.52,3.45,.3],"Barranquilla":[-74.8,10.97,.3],"the coffee region":[-75.6,4.9,.8],
+ "Berlin":[13.4,52.52,.35],"Munich":[11.58,48.14,.3],"Hamburg":[9.99,53.55,.3],"Leipzig":[12.37,51.34,.25],"a village in Bavaria":[11.5,48.9,1.0],
+ "Warsaw":[21.01,52.23,.35],"Kraków":[19.94,50.06,.3],"Gdańsk":[18.65,54.35,.3],"Wrocław":[17.03,51.11,.25],"the countryside near Lublin":[22.5,51.2,.9],
+ "Riyadh":[46.72,24.69,.4],"Jeddah":[39.19,21.49,.3],"Dammam":[50.1,26.43,.3],"Mecca":[39.83,21.39,.25],"the Najd":[44.5,25.5,2.0],
+ "Lagos":[3.39,6.52,.35],"Abuja":[7.49,9.06,.3],"Kano":[8.52,12.0,.3],"Ibadan":[3.9,7.38,.3],"our village in Enugu":[7.5,6.45,.8],
+ "Nairobi":[36.82,-1.29,.35],"Mombasa":[39.67,-4.05,.3],"Kisumu":[34.77,-0.09,.25],"Nakuru":[36.07,-0.3,.25],"our shamba in the Rift Valley":[35.8,0.3,1.0],
+ "Hanoi":[105.85,21.03,.35],"Ho Chi Minh City":[106.7,10.78,.35],"Da Nang":[108.2,16.05,.25],"Hue":[107.58,16.46,.25],"the Mekong Delta":[105.8,10.0,1.0],
+ "Kuala Lumpur":[101.69,3.14,.35],"Penang":[100.33,5.41,.25],"Johor Bahru":[103.76,1.49,.25],"Kota Kinabalu":[116.07,5.98,.3],"our kampung in Kelantan":[102.2,5.8,.8],
 };
 
 // ---------- original-language examples (hand-written pairs shown on a few cards per country)
@@ -469,7 +491,7 @@ const AGEB = a => a < 25 ? "18–24" : a < 35 ? "25–34" : a < 45 ? "35–44" :
 const EDU = ["Primary","Secondary","University","Postgraduate"], INC = ["Lower","Middle","Higher"], GEN = ["Woman","Man","Woman","Man","Woman","Man","Non-binary"];
 let id = 0;
 COUNTRIES.forEach(c => {
-  const n = rint(118, 142);
+  const n = BIG.has(c.n) ? rint(118, 142) : rint(59, 71);
   const keys = Object.keys(c.w), tot = keys.reduce((a, k) => a + c.w[k], 0);
   const draw = () => { let r = rnd() * tot; for (const k of keys) { r -= c.w[k]; if (r <= 0) return k; } return keys[0]; };
   const tk = Object.keys(c.trad);
@@ -830,7 +852,7 @@ chips.querySelectorAll(".chip").forEach(b => {
 });
 
 // ---------- live counter and feed
-let n = 12480; const countEl = $("#count"); countEl.textContent = n.toLocaleString();
+let n = 17380; const countEl = $("#count"); countEl.textContent = n.toLocaleString();
 const feedEl = $("#feed");
 function arrive() { const p = pick(PEOPLE); n += rint(1, 3); countEl.textContent = n.toLocaleString(); feedEl.innerHTML = `<span class="eyebrow">Just added</span><br>A ${p.ageb} ${p.gender.toLowerCase()} in ${p.place}, ${p.country}, imagining <b>${S[p.sch[0]].name.toLowerCase()}</b>, ${p.y} years ahead.`; if (p.lon || p.lat) pulseGlobe(p); }
 arrive(); setInterval(arrive, 6000);
