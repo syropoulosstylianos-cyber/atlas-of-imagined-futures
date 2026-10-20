@@ -1,0 +1,839 @@
+<title>Atlas of Imagined Futures</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a cartographic workbench with four stations (Explore, Countries, Compare, Methods) under a sticky header. */
+:root{
+  --bg:#F5F7FA; --panel:#FFFFFF; --ink:#111827; --ink-2:#4B5563; --ink-3:#8A94A6; --line:#DCE2EA;
+  --accent:#0B7A75; --accent-soft:#D7EFEC; --you:#C2410C; --you-soft:#FBE4D8; --land:#E3E8EF; --land-line:#FFFFFF; --sea:#F5F7FA;
+  --s1:#1F6FB2; --s2:#C96A2B; --s3:#1E9A6C; --s4:#C9961C; --s5:#B55A8A; --s6:#5B5FC7;
+  --display:"Newsreader",Georgia,"Times New Roman",serif; --body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif; --mono:"IBM Plex Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F141A; --panel:#171E26; --ink:#EEF2F6; --ink-2:#B6C0CC; --ink-3:#7E8A99; --line:#2A3441;
+  --accent:#4FC3BC; --accent-soft:#143C3A; --you:#F08A5B; --you-soft:#3F2418; --land:#242E3A; --land-line:#0F141A; --sea:#0F141A;
+  --s1:#6AA9E9; --s2:#E98F55; --s3:#4CC392; --s4:#E5B64A; --s5:#D98AB8; --s6:#8F93E8; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F141A; --panel:#171E26; --ink:#EEF2F6; --ink-2:#B6C0CC; --ink-3:#7E8A99; --line:#2A3441;
+  --accent:#4FC3BC; --accent-soft:#143C3A; --you:#F08A5B; --you-soft:#3F2418; --land:#242E3A; --land-line:#0F141A; --sea:#0F141A;
+  --s1:#6AA9E9; --s2:#E98F55; --s3:#4CC392; --s4:#E5B64A; --s5:#D98AB8; --s6:#8F93E8; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1280px;margin:0 auto;padding-block:0 48px;padding-inline:16px}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--panel);border-bottom:1px solid var(--line)}
+.topbar .in{max-width:1280px;margin:0 auto;padding:8px 16px;display:flex;gap:10px 18px;align-items:center;flex-wrap:wrap}
+.brand{font-family:var(--display);font-size:19px;font-weight:500;white-space:nowrap}
+.brand small{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-left:8px}
+nav.anchors{display:flex;gap:4px;flex-wrap:wrap}
+nav.anchors a{font-size:13px;color:var(--ink-2);text-decoration:none;padding:5px 9px;border-radius:5px}
+nav.anchors a:hover,nav.anchors a:focus-visible{background:var(--accent-soft);color:var(--ink);outline:none}
+.mode{margin-left:auto;display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.mode button{border:0;border-radius:0;padding:5px 10px;font-size:12px;background:transparent;color:var(--ink-2)}
+.mode button.on{background:var(--accent);color:#fff}
+.mode button[disabled]{cursor:not-allowed;opacity:.6}
+.livecount{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
+.pulse{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:6px;animation:pulse 2s infinite;vertical-align:middle}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+header.hero{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:flex-end;justify-content:space-between;padding:22px 0 16px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-family:var(--display);font-weight:500;font-size:clamp(30px,4.2vw,46px);line-height:1.05;margin:4px 0 6px;text-wrap:balance}
+h2{font-family:var(--display);font-weight:500;font-size:22px;margin:0}
+h3{font-family:var(--display);font-weight:500;font-size:18px;margin:0 0 4px}
+.sub{color:var(--ink-2);max-width:62ch;margin:0}
+.feed{font-size:13px;color:var(--ink-2);min-width:260px;max-width:360px}
+.feed b{color:var(--ink);font-weight:500}
+.banner{margin-top:14px;font-size:13px;color:var(--ink-2);background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--you);padding:8px 12px}
+.guide{margin-top:14px;background:var(--accent-soft);border:1px solid var(--accent);border-radius:8px;padding:12px 14px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:12px;align-items:center}
+@media (max-width:760px){.guide{grid-template-columns:1fr}}
+.guide .step{font-size:13px;color:var(--ink-2)}
+.guide .step b{display:block;font-family:var(--display);font-size:17px;color:var(--ink);font-weight:500}
+.section{margin-top:26px;scroll-margin-top:70px}
+.section-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.section-h .meta{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.search{flex:1 1 320px;min-width:0;display:flex;gap:8px}
+.search input{flex:1;min-width:0;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink)}
+input:focus-visible,button:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:9px 14px;border-radius:6px}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:500}
+button.you{background:var(--you);border-color:var(--you);color:#fff;font-weight:500}
+button.small{padding:5px 10px;font-size:13px}
+button.ghost{background:transparent}
+select{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);max-width:100%}
+.hslider{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);flex:1 1 260px;min-width:0}
+.hslider input{flex:1;min-width:120px;accent-color:var(--accent)}
+.hslider .val{font-family:var(--mono);font-size:12px;min-width:120px;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-size:13px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink-2);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.chip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px;margin-top:14px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;min-width:0}
+.panel-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 14px 0;flex-wrap:wrap}
+.panel-h .meta{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.mapwrap{position:relative}
+#map{width:100%;height:auto;display:block;cursor:grab;touch-action:none;background:var(--sea)}
+#map:active{cursor:grabbing}
+.mapctl{position:absolute;right:10px;top:10px;display:flex;flex-direction:column;gap:4px}
+.mapctl button{width:32px;height:32px;padding:0;font-size:16px;line-height:1}
+.jump{position:absolute;left:10px;top:10px}
+.jump select{font-size:13px;padding:6px 8px}
+.country{fill:var(--land);stroke:var(--land-line);stroke-width:.5}
+.country.site{cursor:pointer}
+.country.sel{stroke:var(--ink);stroke-width:1.2}
+.resp{fill:var(--accent);stroke:var(--panel);stroke-width:.6;opacity:.85;cursor:pointer}
+.resp.dim{opacity:.1}
+.resp.match{fill:var(--you)}
+.agg circle{fill:var(--accent);fill-opacity:.55;stroke:var(--panel);stroke-width:1;cursor:pointer}
+.agg circle.sel{stroke:var(--ink);stroke-width:1.5}
+.agg text{font-family:var(--body);font-size:9.5px;fill:var(--ink);pointer-events:none;paint-order:stroke;stroke:var(--sea);stroke-width:2.5px;stroke-linejoin:round}
+.agg .n{font-family:var(--mono);font-size:8px;fill:var(--ink-2)}
+.legend{display:flex;flex-wrap:wrap;gap:12px 16px;padding:8px 14px 12px;font-size:12px;color:var(--ink-2);align-items:center}
+.ramp{display:inline-block;width:80px;height:9px;background:linear-gradient(90deg,var(--land),var(--accent));border-radius:2px;vertical-align:middle;margin:0 6px}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;padding:6px 9px;border-radius:4px;z-index:30;max-width:280px;display:none;line-height:1.4}
+.people{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px;max-height:720px;overflow-y:auto}
+.card{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;padding:10px;border:1px solid var(--line);border-radius:6px}
+.card.you{border-color:var(--you);background:var(--you-soft)}
+.card .who{font-size:12px;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:4px 10px}
+.card .who b{color:var(--ink);font-weight:500}
+.card .ans{font-family:var(--display);font-size:16px;line-height:1.35;margin:4px 0 6px}
+.card .orig{font-family:var(--display);font-size:16px;line-height:1.45;margin:4px 0 6px;color:var(--ink)}
+.card .tags{display:flex;flex-wrap:wrap;gap:4px}
+.card .lang{margin-top:6px}
+.tag{font-size:11px;padding:2px 7px;border-radius:999px;background:var(--accent-soft);color:var(--ink)}
+.tag.hit{outline:1.5px solid var(--accent)}
+.tag.plain{background:transparent;border:1px solid var(--line)}
+.sim{font-family:var(--mono);font-size:12px;color:var(--you);font-weight:500}
+.key{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:12px;color:var(--ink-2);padding:0 14px 10px;align-items:center}
+.profile{padding:12px 14px 14px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:560px){.profile{grid-template-columns:1fr}}
+.bars{display:grid;gap:6px;font-size:13px}
+.bar{display:grid;grid-template-columns:150px minmax(0,1fr) 44px;gap:8px;align-items:center}
+@media (max-width:520px){.bar{grid-template-columns:110px minmax(0,1fr) 40px}}
+.bar .track{height:9px;background:var(--land);border-radius:2px;overflow:visible;position:relative}
+.bar .fill{height:100%;background:var(--accent);border-radius:2px}
+.bar .youmark{position:absolute;top:-3px;width:3px;height:15px;background:var(--you);border-radius:1px}
+.bar .num{font-family:var(--mono);font-size:12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.radar{width:100%;height:auto;display:block;margin:0 auto}
+.radar .grid-l{fill:none;stroke:var(--line)}
+.radar .axis-l{font-family:var(--body);font-size:10px;fill:var(--ink-2)}
+.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:6px;padding:10px 14px 14px}
+.mini{border:1px solid var(--line);border-radius:5px;padding:5px 6px 4px;cursor:pointer;background:var(--panel)}
+.mini.sel{border-color:var(--accent);background:var(--accent-soft)}
+.mini .lab{font-size:10.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini svg{width:100%;height:36px;display:block}
+.mini rect{fill:var(--accent)}
+.mini .axis{font-family:var(--mono);font-size:7.5px;fill:var(--ink-3)}
+.compare2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;padding:12px 14px 14px}
+@media (max-width:760px){.compare2{grid-template-columns:1fr}}
+.pickers{display:flex;gap:10px;flex-wrap:wrap;padding:12px 14px 0;align-items:center;font-size:13px;color:var(--ink-2)}
+.diff{display:grid;gap:4px;font-size:13px}
+.diff div{display:grid;grid-template-columns:minmax(0,1fr) 54px 54px;gap:8px;align-items:center}
+.diff .n{font-family:var(--mono);font-size:12px;text-align:right;font-variant-numeric:tabular-nums}
+.diff .hd{color:var(--ink-3);font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-family:var(--mono)}
+.co{padding:0 14px 14px;font-size:13px}
+.compare{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:18px}
+@media (max-width:860px){.compare{grid-template-columns:1fr}}
+textarea{width:100%;min-height:90px;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);resize:vertical}
+.q{display:grid;gap:6px;margin-top:14px}
+.q label.qt,.q .qt{font-family:var(--display);font-size:17px;line-height:1.3}
+.q .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.q input[type=range]{flex:1;min-width:160px;accent-color:var(--you)}
+.q .val{font-family:var(--mono);font-size:13px;min-width:110px;color:var(--ink-2)}
+.q select{background:var(--bg)}
+.q .opts{display:flex;flex-wrap:wrap;gap:6px}
+.q .opts label{font-size:13px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;background:var(--bg)}
+.q .opts input{accent-color:var(--you);margin:0}
+.q .demo{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.ends{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3)}
+.score{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;align-items:center;padding:12px 14px}
+.ring{width:120px;height:120px}
+.ring text{font-family:var(--mono);font-weight:500;fill:var(--ink)}
+.score p{margin:0;color:var(--ink-2)}
+.score p b{color:var(--ink);font-weight:500}
+.methods{padding:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;font-size:14px;color:var(--ink-2)}
+.methods h3{color:var(--ink)}
+.methods p{margin:0 0 8px}
+.methods code{font-family:var(--mono);font-size:12px;background:var(--bg);padding:1px 5px;border-radius:3px;color:var(--ink)}
+.foot{margin-top:28px;border-top:1px solid var(--line);padding-top:14px;color:var(--ink-3);font-size:12px}
+.hint{font-size:12px;color:var(--ink-3);padding:0 14px 10px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:6px;font-size:13px;z-index:40;display:none}
+.srow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+/* ---- hero globe and scroll story */
+.story{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:start;padding-top:18px}
+@media (max-width:860px){.story{grid-template-columns:1fr;gap:12px}}
+.globe-stick{position:sticky;top:calc(58px + env(safe-area-inset-top,0px));align-self:start}
+@media (max-width:860px){.globe-stick{position:sticky;top:calc(52px + env(safe-area-inset-top,0px));background:var(--bg);z-index:5;padding-bottom:6px}}
+#globe{width:100%;max-width:640px;aspect-ratio:1/1;display:block;margin:0 auto;cursor:grab;touch-action:none}
+#globe:active{cursor:grabbing}
+.globe-cap{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:11px;color:var(--ink-3);max-width:640px;margin:6px auto 0;flex-wrap:wrap}
+.intro{padding:14px 0 8px}
+.intro h1{font-size:clamp(38px,5.6vw,66px);margin:6px 0 10px}
+.intro .sub{font-size:17px;max-width:48ch}
+.enter{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.enter button{padding:12px 20px;font-size:15px}
+.steps{display:flex;flex-direction:column;gap:38vh;padding:12vh 0 14vh}
+@media (max-width:860px){.steps{gap:28vh;padding:6vh 0 10vh}}
+.step{max-width:46ch}
+.step .num{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--ink-3);text-transform:uppercase}
+.step h2{font-size:clamp(26px,3.2vw,38px);line-height:1.12;margin:6px 0 10px;text-wrap:balance}
+.step p{color:var(--ink-2);font-size:16px;margin:0 0 10px}
+.big{font-family:var(--display);font-size:clamp(44px,6vw,72px);line-height:1;font-weight:500;letter-spacing:-.01em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.big small{font-family:var(--body);font-size:14px;color:var(--ink-2);margin-left:8px;letter-spacing:0;font-weight:400}
+.step.on h2{color:var(--ink)}
+.step:not(.on){opacity:.55}
+@media (prefers-reduced-motion:no-preference){.step{transition:opacity .4s}}
+.chapter{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-right:10px}
+.section-h h2{font-size:28px}
+/* ---- future glyph and shared wall */
+.glyphbox{display:grid;grid-template-columns:230px minmax(0,1fr);gap:16px;align-items:center;padding:12px 14px}
+@media (max-width:560px){.glyphbox{grid-template-columns:1fr;justify-items:center}}
+.glyphbox svg{width:230px;height:230px;display:block}
+.glyphbox h3{font-size:20px}
+.glyphbox p{margin:0 0 8px;color:var(--ink-2)}
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:12px 14px 14px}
+.wtile{border:1px solid var(--line);border-radius:6px;padding:8px;background:var(--panel);display:flex;flex-direction:column;gap:6px;min-width:0}
+.wtile.you{border-color:var(--you);background:var(--you-soft)}
+.wtile svg{width:100%;height:auto;aspect-ratio:1/1;display:block}
+.wtile .t{font-family:var(--display);font-size:13px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.wtile .m{font-family:var(--mono);font-size:10px;color:var(--ink-3);display:flex;justify-content:space-between;gap:6px}
+.wallkey{display:grid;grid-template-columns:170px minmax(0,1fr);gap:16px;padding:14px;border-bottom:1px solid var(--line);align-items:center}
+@media (max-width:560px){.wallkey{grid-template-columns:1fr;justify-items:center}}
+.wallkey svg{width:170px;height:170px;display:block}
+.wallkey p{margin:0 0 8px;color:var(--ink-2);font-size:14px}
+.wallkey p b{color:var(--ink);font-weight:500}
+.wallkey ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:14px}
+.wallkey li{margin:0 0 4px}
+.plegend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:4px 0 10px;font-size:13px;color:var(--ink-2)}
+.plegend span{display:inline-flex;align-items:baseline;gap:5px}
+.plegend b{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1px solid var(--ink-3);font-family:var(--mono);font-size:11px;color:var(--ink);align-self:center}
+.plegend small{color:var(--ink-3);font-size:12px}
+.tabs{display:flex;gap:4px;padding:12px 14px 0}
+.tabs button{padding:5px 10px;font-size:13px}
+.tabs button.on{background:var(--accent-soft);border-color:var(--accent)}
+</style>
+
+<div class="topbar"><div class="in">
+  <div class="brand">Atlas of Imagined Futures<small>prototype</small></div>
+  <nav class="anchors" aria-label="Sections"><a href="#explore">Explore</a><a href="#countries">Countries</a><a href="#compare">Compare</a><a href="#wall">Wall</a><a href="#methods">Methods</a></nav>
+  <div class="livecount"><span class="pulse" aria-hidden="true"></span><span id="count">0</span> futures · 15 countries</div>
+  <div class="mode" role="group" aria-label="Data mode"><button type="button" class="on" id="modeSim">Simulated data</button><button type="button" disabled title="Available once Aim 1 data are deposited (Spring 2028)">Live corpus · 2028</button></div>
+</div></div>
+
+<div class="wrap">
+<div class="banner" style="margin-top:12px">Prototype for reviewers. Every respondent shown here is simulated to illustrate the Atlas as it will work once Aim 1 data arrive. No real survey responses are displayed.</div>
+
+<section class="story" id="story">
+  <div class="globe-stick">
+    <canvas id="globe" width="640" height="640" role="img" aria-label="Rotating globe of respondents. Drag to spin, click a country to fly to it."></canvas>
+    <div class="globe-cap"><span id="globeCap">Drag to spin · click a country to fly to it</span><span id="globeLive"></span></div>
+  </div>
+  <div>
+    <header class="intro">
+      <div class="eyebrow">The Grammar of Tomorrow</div>
+      <h1>Atlas of Imagined Futures</h1>
+      <p class="sub">What people across the world see when they look ahead. Every point of light is a person describing the future in their own words.</p>
+      <div class="feed" id="feed" style="margin-top:12px"></div>
+      <div class="enter"><button type="button" class="primary" id="enter">Enter the Atlas</button><a href="#explore" class="small" style="font-size:13px;color:var(--ink-2)">Skip to the workbench</a></div>
+    </header>
+    <div class="steps" id="steps">
+      <div class="step" data-step="0"><div class="num">01 · Everyone</div><h2>Fifteen countries. One question.</h2><p>“Describe the future you imagine for yourself and the people you care about.” Asked in the national language, answered in people's own words, and placed on the map where each person lives.</p><div class="big"><span data-count="people">0</span><small>futures so far</small></div></div>
+      <div class="step" data-step="1"><div class="num">02 · How far</div><h2>Some look ahead a few years. Some look a century.</h2><p>Each person is now colored by temporal horizon, from near to far. Countries glow by how far their people look, and the differences are not where you might expect.</p><div class="big"><span data-count="far">0</span>%<small>picture thirty years ahead or more</small></div></div>
+      <div class="step" data-step="2"><div class="num">03 · Who is there</div><h2>Who is in the future you imagine?</h2><p>Lit here are the people whose futures reach past their own lifetime to people not yet born. The traditions a person holds predict this more than their age or income.</p><div class="big"><span data-count="unborn">0</span>%<small>include people not yet born</small></div></div>
+      <div class="step" data-step="3"><div class="num">04 · What it draws on</div><h2>Futures are built from inherited images.</h2><p>Lit now: everyone whose future draws on a divine plan. Religious, philosophical, and narrative traditions supply the schemas people think with, and the Atlas makes those schemas searchable.</p><div class="big"><span data-count="divine">0</span>%<small>draw on a divine plan</small></div></div>
+      <div class="step" data-step="4"><div class="num">05 · And yours</div><h2>Where is your future on this map?</h2><p>Answer a short questionnaire and the Atlas finds the people who imagine something like you do, wherever they are, and gives you a glyph of your own future to keep.</p><div class="enter"><button type="button" class="you" id="toCompare">Compare my future</button><button type="button" id="toExplore">Explore the corpus</button></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="guide" id="guide">
+  <div class="step"><b>1. Search</b>Type a term such as grandchildren or climate, or click a schema chip. The map recolors by how many people in each country imagine it.</div>
+  <div class="step"><b>2. Zoom in</b>Click a country to fly to it and see its profile. At close range every dot is a person; click one to read their future.</div>
+  <div class="step"><b>3. Compare</b>Answer the questionnaire below to get a future similarity index and see who, and where, shares your future.</div>
+  <button type="button" class="small" id="guideClose">Got it</button>
+</div>
+
+<section class="section" id="explore">
+  <div class="section-h"><h2><span class="chapter">01</span>Explore the corpus</h2><span class="meta" id="waveMeta">Wave 1 · simulated</span></div>
+  <div class="toolbar">
+    <form class="search" id="searchForm">
+      <input id="q" type="search" placeholder="Search a term: grandchildren, climate, God's plan, machines, peace…" autocomplete="off" aria-label="Search imagined futures">
+      <button class="primary" type="submit">Search</button>
+      <button type="button" id="clear">Clear</button>
+    </form>
+    <div class="hslider"><label for="hz">Horizon</label><input type="range" id="hz" min="0" max="100" step="5" value="0" aria-label="Show only futures imagined at least this many years ahead"><span class="val" id="hzv">any distance</span></div>
+    <button type="button" class="small" id="share">Copy link to this view</button>
+  </div>
+  <div class="chips" id="chips"></div>
+
+  <div class="grid">
+    <div class="panel">
+      <div class="panel-h"><h2 id="mapTitle" style="font-size:20px">Where futures are imagined</h2><span class="meta" id="mapMeta"></span></div>
+      <div class="mapwrap">
+        <svg id="map" viewBox="0 0 960 500" role="img" aria-label="World map of respondents"></svg>
+        <div class="jump"><select id="jump" aria-label="Jump to a country"><option value="">Jump to a country…</option></select></div>
+        <div class="mapctl"><button type="button" id="zin" aria-label="Zoom in">+</button><button type="button" id="zout" aria-label="Zoom out">−</button><button type="button" id="zreset" aria-label="Reset view" title="Reset view">⌂</button></div>
+      </div>
+      <div class="legend"><span>Share matching <span class="ramp"></span></span><span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="6" style="fill:var(--accent);fill-opacity:.55;stroke:var(--panel)"></circle></svg> country, sized by respondents</span><span><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="4" class="resp"></circle></svg> one person (zoomed in)</span><span><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="4" class="resp match"></circle></svg> shares your future</span></div>
+      <div class="profile" id="profile"></div>
+      <div class="co" id="co"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-h"><h2 id="peopleTitle" style="font-size:20px">People in the corpus</h2><span class="meta" id="peopleMeta"></span></div>
+      <div class="hint">De-identified. Each card shows the answer to “Describe the future you imagine for yourself and the people you care about.” Cards marked with a language offer the answer in its original.</div>
+      <div class="key" aria-label="How to read an avatar"><span><svg width="26" height="26" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="19" fill="none" stroke="var(--s1)" stroke-width="1.6"/><circle cx="26" cy="26" r="22" fill="none" stroke="var(--s1)" stroke-opacity=".6" stroke-width="1.6"/><polygon points="26,13 37.3,19.5 37.3,32.5 26,39 14.7,32.5 14.7,19.5" fill="var(--s1)" fill-opacity=".85"/></svg></span><span>Avatar key: colour is tradition (blue Christian, green Muslim, orange Hindu, gold Buddhist, violet unaffiliated, pink other); sides are age band (triangle 18–24 to octagon 65+); rings are education (one for primary to four for postgraduate).</span></div>
+      <div class="people" id="people"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="countries">
+  <div class="section-h"><h2><span class="chapter">02</span>Countries</h2><span class="meta">Fifteen survey countries · how far ahead people look</span></div>
+  <div class="panel">
+    <div class="hint" style="padding:12px 14px 0">Each small chart is the distribution of temporal horizon in that country, in years ahead: 5 to 10, 15 to 25, 30 to 50, and 55 or more. Click one to select it on the map.</div>
+    <div class="strip" id="strip"></div>
+  </div>
+  <div class="panel" style="margin-top:14px">
+    <div class="pickers"><span>Compare</span><select id="cA" aria-label="First country"></select><span>with</span><select id="cB" aria-label="Second country"></select></div>
+    <div class="compare2"><div id="cmpRadar"></div><div id="cmpDiff"></div></div>
+  </div>
+</section>
+
+<section class="section" id="compare">
+  <div class="section-h"><h2><span class="chapter">03</span>Compare your future</h2><span class="meta">Eight questions from the survey · nothing is stored</span></div>
+  <div class="compare">
+    <div class="panel" style="padding:14px">
+      <form id="youForm">
+        <div class="q"><label class="qt" for="you">1. Describe the future you imagine for yourself and the people you care about.</label><textarea id="you" placeholder="In thirty years I picture my grandchildren…"></textarea></div>
+        <div class="q"><label class="qt" for="youc">2. Now describe the future you think your community is moving toward.</label><textarea id="youc" style="min-height:70px" placeholder="Where I live, I think we are heading toward…"></textarea></div>
+        <div class="q"><label class="qt" for="qh">3. About how many years ahead were you picturing?</label><div class="row"><input type="range" id="qh" min="1" max="100" value="25"><span class="val" id="qhv">25 years</span></div></div>
+        <div class="q"><label class="qt" for="qb">4. Who is in the future you imagined?</label><select id="qb"><option value="15">Mostly myself</option><option value="35">My family and close friends</option><option value="55" selected>My community or my country</option><option value="78">Humanity as a whole</option><option value="95">People who are not yet born</option></select></div>
+        <div class="q"><label class="qt" for="qn">5. Which best describes the shape of that future?</label><select id="qn"><option value="progress">Things get better</option><option value="decline">Things get worse</option><option value="cycle">Things rise and fall, as they always have</option><option value="rupture">A break, then something new</option><option value="steady" selected>Much the same as now</option></select></div>
+        <div class="q"><label class="qt" for="qr">6. How clearly can you picture it?</label><div class="row"><input type="range" id="qr" min="1" max="7" value="4"><span class="val" id="qrv">4 of 7</span></div><div class="ends"><span>Vague</span><span>Vivid and detailed</span></div></div>
+        <div class="q"><label class="qt" for="qv">7. How hopeful is it?</label><div class="row"><input type="range" id="qv" min="1" max="7" value="4"><span class="val" id="qvv">4 of 7</span></div><div class="ends"><span>Mostly fearful</span><span>Mostly hopeful</span></div></div>
+        <div class="q"><label class="qt" for="qa">8. How much can people like you shape it?</label><div class="row"><input type="range" id="qa" min="1" max="7" value="4"><span class="val" id="qav">4 of 7</span></div><div class="ends"><span>It is already decided</span><span>It is ours to make</span></div></div>
+        <div class="q"><span class="qt">9. Which of these influence how you picture the future? (tick all that apply)</span><div class="opts" id="qinf"></div></div>
+        <div class="q"><label class="qt" for="qsrc">10. And which one influences it most?</label><select id="qsrc"><option value="">Prefer not to say</option><option value="religious">Religious teaching</option><option value="philosophical">Philosophy or ethics</option><option value="narrative">Books, film, and games</option><option value="science">Science and the news</option><option value="community">Family and community</option><option value="school">School or university</option><option value="social">Social media</option><option value="experience">My own experience</option></select></div>
+        <div class="q"><span class="qt">Which of these does your future draw on? (optional)</span><div class="opts" id="qs"></div></div>
+        <div class="q"><span class="qt">About you</span><div class="hint" style="padding:0">Used only for the comparison. Nothing here identifies you.</div><div class="demo"><select id="dAge" aria-label="Age band"><option value="">Age band</option><option>18–24</option><option>25–34</option><option>35–44</option><option>45–54</option><option>55–64</option><option>65+</option></select><select id="dGender" aria-label="Gender"><option value="">Gender</option><option>Woman</option><option>Man</option><option>Non-binary</option><option>Prefer to self-describe</option><option>Prefer not to say</option></select><select id="dCountry" aria-label="Country"><option value="">Country</option></select><input type="text" id="dCity" aria-label="City or town" placeholder="City or town" style="font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);min-width:0"><select id="dTrad" aria-label="Religious affiliation"><option value="">Religious affiliation</option><option>Christian</option><option>Muslim</option><option>Hindu</option><option>Buddhist</option><option>Jewish</option><option>Folk or traditional religion</option><option>Unaffiliated</option><option>Other</option><option>Prefer not to say</option></select></div></div>
+        <div class="srow" style="margin-top:14px"><button class="you" type="submit">Find people who share my future</button><button type="button" id="example">Fill with an example</button></div>
+      </form>
+    </div>
+    <div class="panel" id="result" hidden>
+      <div class="score">
+        <svg class="ring" viewBox="0 0 120 120" id="ring" aria-hidden="true"></svg>
+        <div><div class="eyebrow">Future similarity index</div><p id="scoreText"></p></div>
+      </div>
+      <div style="padding:0 14px 10px;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start" id="youRadarWrap"></div>
+      <div class="glyphbox" id="glyphbox"></div>
+      <div class="bars" id="breakdown" style="padding:0 14px 10px"></div>
+      <div class="bars" id="shareBars" style="padding:0 14px 14px"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="wall">
+  <div class="section-h"><h2><span class="chapter">04</span>Futures imagined today</h2><span class="meta">A gallery of visitors' futures · simulated in this prototype</span></div>
+  <div class="panel">
+    <div class="wallkey" id="wallKey"></div>
+    <div class="tabs" role="tablist"><button type="button" class="on" id="tabNew" role="tab">Newest first</button><button type="button" id="tabTop" role="tab">Most shared first</button></div>
+    <div class="wall" id="wallGrid"></div>
+  </div>
+</section>
+
+<section class="section" id="methods">
+  <div class="section-h"><h2><span class="chapter">05</span>Methods</h2><span class="meta">How the Atlas is built</span></div>
+  <div class="panel methods">
+    <div><h3>Data</h3><p>In this prototype every respondent is simulated: a seeded generator draws each person's country, tradition, demographics, schemas, horizon, and answer text from distributions chosen to resemble plausible survey data. Nothing here is a real response.</p><p>In the live Atlas the corpus is the Aim 1 survey: about 1,000 adults in each of fifteen countries, answering the same open-ended prompts in their own language, with the Future Imagination and Traditions Inventory and present-outcome measures. New waves and new countries are added as the research program grows.</p></div>
+    <div><h3>Scoring</h3><p>Each response is scored on six dimensions, each 0 to 100: temporal horizon, richness, content and valence, agency, social boundary, and narrative form. In the live Atlas, classifiers trained on a human-coded subset produce these scores and are validated by language and by country before any number is shown. Schemas are the images, obligations, and story forms a response draws on, coded against the project codebook.</p></div>
+    <div><h3>Future similarity index</h3><p>A visitor's answers are compared with every respondent as a weighted sum: <code>0.3</code> overlap of schemas and themes (text and ticked boxes), <code>0.12</code> each for closeness of horizon, who is included, hopefulness, and agency, <code>0.12</code> for matching narrative form, and <code>0.10</code> for richness. People above <code>0.72</code> are counted as sharing the visitor's future. In the live Atlas the text comparison uses the same multilingual sentence embeddings as the research, so a description in any language can be placed beside futures written in any other.</p></div>
+    <div><h3>Privacy</h3><p>Respondents are shown only as de-identified avatars with age band, gender, income band, education, affiliation, and a place at the level of a city or region. Answers are shown as written but with names and identifying details removed before deposit. Visitors' answers to the questionnaire are compared in the browser and never stored.</p></div>
+  </div>
+</section>
+
+<div class="foot">The Grammar of Tomorrow · Arizona State University, University of Utah, University of Massachusetts Amherst · Center for Science and the Imagination, Lincoln Center for Applied Ethics, Center for the Study of Religion and Conflict.</div>
+</div>
+<div class="tip" id="tip"></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(function(){
+const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const DUR = REDUCED ? 0 : 600;
+let seed = 20270831; const rnd = () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
+const pick = a => a[Math.floor(rnd() * a.length)];
+const rint = (a, b) => a + Math.floor(rnd() * (b - a + 1));
+
+// ---------- schemas
+const SCHEMAS = [
+ {id:"gen", name:"Future generations", col:"var(--s1)", kw:["grandchildren","children","descendants","generations","posterity","inherit","great-grand"]},
+ {id:"divine", name:"Divine plan", col:"var(--s2)", kw:["god","god's","allah","divine","plan","faith","blessing","prayer","heaven","will of","providence","mosque","church","temple"]},
+ {id:"tech", name:"Technological progress", col:"var(--s3)", kw:["machines","technology","ai","robots","progress","innovation","computers","space","automation","screens"]},
+ {id:"nature", name:"Climate and nature", col:"var(--s4)", kw:["climate","nature","forest","rivers","planet","earth","weather","sea","farm","land","rain","drought","floods","air"]},
+ {id:"community", name:"Community and family", col:"var(--s5)", kw:["community","family","village","neighbors","together","home","elders","parents","relatives"]},
+ {id:"cycles", name:"Cycles of history", col:"var(--s6)", kw:["cycle","cycles","again","return","repeat","history","rise and fall","karma","rebirth","turning"]},
+ {id:"decline", name:"Decline", col:"var(--s2)", kw:["worse","decline","collapse","lost","poorer","fear","afraid","war","conflict","crisis","ruin"]},
+ {id:"peace", name:"Peace and justice", col:"var(--s1)", kw:["peace","justice","fair","rights","freedom","equal","dignity","honest"]},
+ {id:"prosper", name:"Prosperity", col:"var(--s4)", kw:["prosperity","wealth","money","jobs","business","richer","comfortable","economy","house","salary"]},
+ {id:"learn", name:"Education", col:"var(--s3)", kw:["school","education","university","learn","study","knowledge","read","degree","teacher"]},
+ {id:"health", name:"Health and long life", col:"var(--s5)", kw:["health","healthy","long life","medicine","live longer","old age","disease","doctor","hospital"]},
+ {id:"duty", name:"Obligation to the future", col:"var(--s6)", kw:["duty","obligation","responsible","owe","steward","care for","protect","leave behind","ancestor","legacy"]},
+];
+const S = Object.fromEntries(SCHEMAS.map(s => [s.id, s]));
+const NARR = { progress: "Things get better", decline: "Things get worse", cycle: "Rise and fall", rupture: "A break, then something new", steady: "Much the same" };
+const SRC = { religious: "Religious teaching", philosophical: "Philosophy or ethics", narrative: "Books, film, and games", science: "Science and the news", community: "Family and community", school: "School or university", social: "Social media", experience: "Own experience" };
+
+// ---------- countries
+const COUNTRIES = [
+ {n:"United States", map:"United States of America", lang:"English", trad:{Christian:.62,Unaffiliated:.30,Other:.08}, w:{tech:3,prosper:3,gen:2,divine:2,decline:2,nature:1,peace:1,health:1,community:1,learn:1,duty:1,cycles:.3}, horizon:[5,40], places:["Phoenix","Atlanta","Ohio","Texas","California","New York","a small town in Iowa"]},
+ {n:"Brazil", map:"Brazil", lang:"Portuguese", trad:{Christian:.82,Unaffiliated:.12,Other:.06}, w:{divine:3,community:3,prosper:2,gen:2,peace:2,health:2,nature:1,learn:1,tech:1,decline:1,duty:1,cycles:.3}, horizon:[5,30], places:["São Paulo","Recife","Minas Gerais","the Amazon","Salvador","Porto Alegre"]},
+ {n:"Uruguay", map:"Uruguay", lang:"Spanish", trad:{Unaffiliated:.5,Christian:.44,Other:.06}, w:{peace:3,learn:2,prosper:2,community:2,gen:2,nature:2,tech:1,health:1,decline:1,duty:1,divine:.5,cycles:.3}, horizon:[5,30], places:["Montevideo","Salto","the countryside","Paysandú"]},
+ {n:"Philippines", map:"Philippines", lang:"Filipino", trad:{Christian:.9,Muslim:.06,Other:.04}, w:{divine:3,community:3,gen:3,prosper:2,learn:2,health:1,nature:1,peace:1,tech:1,duty:1,decline:.5,cycles:.3}, horizon:[5,40], places:["Manila","Cebu","Davao","our barangay","Iloilo"]},
+ {n:"Ghana", map:"Ghana", lang:"English", trad:{Christian:.7,Muslim:.2,Other:.1}, w:{divine:3,gen:3,community:2,learn:2,prosper:2,duty:2,health:1,peace:1,nature:1,tech:1,decline:.5,cycles:.3}, horizon:[10,50], places:["Accra","Kumasi","Tamale","our village","Cape Coast"]},
+ {n:"Romania", map:"Romania", lang:"Romanian", trad:{Christian:.86,Unaffiliated:.1,Other:.04}, w:{divine:2,community:2,gen:2,prosper:2,decline:2,peace:1,learn:1,health:1,nature:1,tech:1,duty:1,cycles:.5}, horizon:[5,30], places:["Bucharest","Cluj","Iași","the Carpathians","Timișoara"]},
+ {n:"Sweden", map:"Sweden", lang:"Swedish", trad:{Unaffiliated:.6,Christian:.36,Other:.04}, w:{nature:3,peace:2,tech:2,learn:2,gen:2,duty:2,health:1,prosper:1,community:1,decline:1,divine:.2,cycles:.3}, horizon:[10,60], places:["Stockholm","Gothenburg","Malmö","Umeå","the north"]},
+ {n:"Indonesia", map:"Indonesia", lang:"Indonesian", trad:{Muslim:.87,Christian:.1,Other:.03}, w:{divine:3,community:3,gen:2,prosper:2,learn:2,health:1,peace:1,nature:1,tech:1,duty:1,decline:.5,cycles:.5}, horizon:[5,40], places:["Jakarta","Surabaya","Bandung","Yogyakarta","our kampung","Makassar"]},
+ {n:"Egypt", map:"Egypt", lang:"Arabic", trad:{Muslim:.9,Christian:.1}, w:{divine:3,community:2,gen:2,prosper:2,peace:2,health:1,learn:1,nature:.5,tech:1,duty:1,decline:1,cycles:.3}, horizon:[5,40], places:["Cairo","Alexandria","Upper Egypt","the Delta","Giza"]},
+ {n:"Turkey", map:"Turkey", lang:"Turkish", trad:{Muslim:.9,Unaffiliated:.08,Other:.02}, w:{divine:2,community:2,gen:2,prosper:2,peace:2,decline:1,learn:1,health:1,nature:1,tech:1,duty:1,cycles:.5}, horizon:[5,30], places:["Istanbul","Ankara","Izmir","Konya","the Black Sea coast"]},
+ {n:"Kazakhstan", map:"Kazakhstan", lang:"Kazakh and Russian", trad:{Muslim:.7,Christian:.24,Unaffiliated:.06}, w:{community:3,gen:2,prosper:2,learn:2,peace:1,divine:1,health:1,nature:1,tech:1,decline:1,duty:1,cycles:.5}, horizon:[5,30], places:["Almaty","Astana","Shymkent","the steppe","Karaganda"]},
+ {n:"India", map:"India", lang:"Hindi", trad:{Hindu:.78,Muslim:.15,Other:.07}, w:{cycles:3,divine:2,community:2,gen:2,learn:2,prosper:2,duty:2,health:1,peace:1,nature:1,tech:1,decline:.5}, horizon:[10,100], places:["Delhi","Mumbai","Bengaluru","our village in Bihar","Kerala","Varanasi","Chennai"]},
+ {n:"Thailand", map:"Thailand", lang:"Thai", trad:{Buddhist:.92,Muslim:.05,Other:.03}, w:{cycles:3,community:2,health:2,peace:2,gen:1,prosper:1,learn:1,nature:1,duty:1,tech:1,divine:.5,decline:.5}, horizon:[5,40], places:["Bangkok","Chiang Mai","Isan","Khon Kaen","the south"]},
+ {n:"Japan", map:"Japan", lang:"Japanese", trad:{Unaffiliated:.6,Buddhist:.33,Other:.07}, w:{tech:3,decline:2,health:2,nature:2,community:1,gen:1,peace:1,learn:1,prosper:1,cycles:1,duty:1,divine:.2}, horizon:[5,50], places:["Tokyo","Osaka","Sendai","Fukuoka","a town in Hokkaido","Kyoto"]},
+ {n:"South Korea", map:"South Korea", lang:"Korean", trad:{Unaffiliated:.5,Christian:.3,Buddhist:.2}, w:{tech:3,prosper:2,learn:2,decline:2,health:1,gen:1,community:1,peace:1,nature:1,duty:1,divine:1,cycles:.5}, horizon:[5,40], places:["Seoul","Busan","Daegu","Gwangju","Incheon"]},
+];
+const C = Object.fromEntries(COUNTRIES.map(c => [c.n, c]));
+const CIDX = Object.fromEntries(COUNTRIES.map((c, i) => [c.n, i]));
+// place coordinates [lon, lat, spread in degrees]: cities get a tight spread, regions a wider one
+const PLACE = {
+ "Phoenix":[-112.07,33.45,.35],"Atlanta":[-84.39,33.75,.35],"Ohio":[-82.9,40.4,1.4],"Texas":[-98.5,31.2,2.2],"California":[-119.7,36.8,1.8],"New York":[-73.95,40.75,.35],"a small town in Iowa":[-93.5,42.0,1.0],
+ "São Paulo":[-46.63,-23.55,.4],"Recife":[-34.88,-8.05,.3],"Minas Gerais":[-44.4,-18.8,1.8],"the Amazon":[-60.0,-3.1,1.6],"Salvador":[-38.5,-12.97,.3],"Porto Alegre":[-51.23,-30.03,.3],
+ "Montevideo":[-56.17,-34.9,.25],"Salto":[-57.96,-31.38,.25],"the countryside":[-56.0,-33.0,1.0],"Paysandú":[-58.08,-32.32,.25],
+ "Manila":[120.98,14.6,.3],"Cebu":[123.9,10.32,.3],"Davao":[125.6,7.07,.3],"our barangay":[121.5,15.5,1.2],"Iloilo":[122.56,10.72,.3],
+ "Accra":[-0.19,5.6,.3],"Kumasi":[-1.62,6.69,.3],"Tamale":[-0.84,9.4,.3],"our village":[-1.2,7.6,1.0],"Cape Coast":[-1.25,5.11,.25],
+ "Bucharest":[26.1,44.43,.3],"Cluj":[23.6,46.77,.3],"Iași":[27.6,47.16,.3],"the Carpathians":[25.3,45.5,.9],"Timișoara":[21.23,45.75,.3],
+ "Stockholm":[18.07,59.33,.35],"Gothenburg":[11.97,57.71,.3],"Malmö":[13.0,55.6,.3],"Umeå":[20.26,63.83,.35],"the north":[19.0,66.3,1.5],
+ "Jakarta":[106.85,-6.2,.35],"Surabaya":[112.75,-7.25,.3],"Bandung":[107.6,-6.9,.3],"Yogyakarta":[110.37,-7.8,.3],"our kampung":[110.0,-7.4,.9],"Makassar":[119.42,-5.14,.3],
+ "Cairo":[31.24,30.05,.35],"Alexandria":[29.92,31.2,.3],"Upper Egypt":[32.0,26.0,.6],"the Delta":[31.0,30.9,.5],"Giza":[31.13,29.99,.25],
+ "Istanbul":[28.98,41.02,.35],"Ankara":[32.86,39.93,.3],"Izmir":[27.14,38.42,.3],"Konya":[32.48,37.87,.3],"the Black Sea coast":[38.0,41.0,1.2],
+ "Almaty":[76.9,43.24,.35],"Astana":[71.45,51.17,.3],"Shymkent":[69.6,42.32,.3],"the steppe":[68.0,48.5,2.2],"Karaganda":[73.1,49.8,.3],
+ "Delhi":[77.2,28.6,.4],"Mumbai":[72.88,19.08,.35],"Bengaluru":[77.59,12.97,.35],"our village in Bihar":[85.5,25.6,.9],"Kerala":[76.3,10.3,.8],"Varanasi":[83.0,25.32,.3],"Chennai":[80.27,13.08,.3],
+ "Bangkok":[100.5,13.75,.35],"Chiang Mai":[98.98,18.79,.3],"Isan":[103.0,16.0,1.4],"Khon Kaen":[102.83,16.43,.3],"the south":[99.8,8.0,.9],
+ "Tokyo":[139.7,35.68,.4],"Osaka":[135.5,34.69,.3],"Sendai":[140.87,38.27,.3],"Fukuoka":[130.4,33.59,.3],"a town in Hokkaido":[142.5,43.3,.9],"Kyoto":[135.77,35.01,.25],
+ "Seoul":[126.98,37.57,.35],"Busan":[129.07,35.18,.3],"Daegu":[128.6,35.87,.25],"Gwangju":[126.85,35.16,.25],"Incheon":[126.7,37.46,.25],
+};
+
+// ---------- original-language examples (hand-written pairs shown on a few cards per country)
+const ORIG = {
+ "Brazil": [["Daqui a vinte anos imagino meus netos crescendo numa cidade onde o rio voltou a ser limpo e os vizinhos ainda se conhecem. Se Deus quiser, estaremos todos juntos.", "Twenty years from now I imagine my grandchildren growing up in a city where the river is clean again and the neighbors still know each other. God willing, we will all be together."], ["Em dez anos quero ter meu próprio negócio e uma casa melhor do que a dos meus pais. O resto está nas mãos de Deus.", "In ten years I want to have my own business and a better house than my parents had. The rest is in God's hands."]],
+ "Uruguay": [["En treinta años veo un país más justo, donde los jóvenes no tengan que irse para vivir bien. Lo que más me importa es que la educación siga siendo pública y buena.", "In thirty years I see a fairer country, where the young do not have to leave to live well. What matters most to me is that education stays public and good."], ["Imagino el campo con menos gente pero más cuidado, y a mis hijos volviendo a visitarlo.", "I imagine the countryside with fewer people but better cared for, and my children coming back to visit it."]],
+ "Romania": [["Peste douăzeci de ani sper ca nepoții mei să rămână în țară și să nu trebuiască să plece în străinătate pentru un salariu decent. Dumnezeu să ne ajute.", "In twenty years I hope my grandchildren stay in the country and do not have to leave for a decent salary. May God help us."], ["Mi-e teamă că lucrurile se vor înrăutăți înainte să se îndrepte, dar satul nostru a trecut prin multe și încă e aici.", "I am afraid things will get worse before they get better, but our village has been through a lot and it is still here."]],
+ "Sweden": [["Om femtio år hoppas jag att skogen står kvar och att vi lärde oss leva med klimatet i stället för mot det. Det är vi skyldiga dem som kommer efter oss.", "In fifty years I hope the forest still stands and that we learned to live with the climate instead of against it. We owe that to those who come after us."], ["Jag ser ett samhälle där tekniken sköter det tunga och människor får tid för varandra.", "I see a society where technology handles the heavy work and people have time for each other."]],
+ "Indonesia": [["Dua puluh tahun lagi saya berharap anak-anak saya masih dekat dengan keluarga, masjid masih ramai, dan rezeki kami cukup. Semua sudah diatur oleh Allah.", "In twenty years I hope my children are still close to the family, the mosque is still full, and our livelihood is enough. All of it is arranged by God."], ["Saya membayangkan kampung kami dengan sekolah yang lebih baik dan jalan yang tidak banjir setiap musim hujan.", "I imagine our village with a better school and roads that do not flood every rainy season."]],
+ "Egypt": [["بعد عشرين سنة أتمنى أن يكون أولادي في صحة جيدة وأن تكون البلد في سلام. كل شيء بيد الله، ونحن نعمل ونصلي.", "In twenty years I hope my children are in good health and the country is at peace. Everything is in God's hands, and we work and we pray."], ["أتخيل القاهرة أكثر ازدحاماً، لكن بفرص عمل أكثر للشباب إن شاء الله.", "I imagine Cairo more crowded, but with more jobs for the young, God willing."]],
+ "Turkey": [["Otuz yıl sonra torunlarımın barış içinde, kendi evlerinde ve ailelerine yakın yaşadığını hayal ediyorum. Gerisi Allah'ın takdiri.", "Thirty years from now I imagine my grandchildren living in peace, in their own homes and close to their families. The rest is God's will."], ["Fiyatların insanların kazandığından hızlı arttığı bir gelecek görüyorum ve bu beni korkutuyor.", "I see a future where prices rise faster than people earn, and it frightens me."]],
+ "India": [["पचास साल बाद मैं देखता हूँ कि जो आज हम बोते हैं वही हमारे बच्चों को मिलेगा। समय का चक्र घूमता रहता है, और हमारा कर्तव्य अच्छे पूर्वज बनना है।", "Fifty years on I see that what we sow today is what our children will receive. The wheel of time keeps turning, and our duty is to be good ancestors."], ["मेरे गाँव में बीस साल में एक अच्छा स्कूल और एक अस्पताल होगा, और मेरी बेटी पढ़ाई पूरी करेगी।", "In twenty years my village will have a good school and a hospital, and my daughter will finish her studies."]],
+ "Japan": [["三十年後、機械が重い仕事を引き受けて、人は人のために時間を使えるようになっていると思います。ただ、町の人口は今より少ないでしょう。", "Thirty years from now I think machines will take on the heavy work and people will have time for one another. But the town will have fewer people than now."], ["夏はもっと暑くなり、それでも人々は順応していく。良くも悪くも、同じことの繰り返しです。", "Summers will be hotter, and still people will adapt. For better or worse, it is the same thing repeated."]],
+ "South Korea": [["20년 뒤에는 아이들이 좋은 교육을 받고 안정된 직장을 갖기를 바랍니다. 다만 경쟁이 지금보다 더 심해질까 걱정됩니다.", "In twenty years I hope the children get a good education and stable jobs. I only worry that competition will be fiercer than now."], ["기술이 모든 것을 바꾸겠지만, 가족이 함께 모이는 저녁은 남아 있으면 좋겠습니다.", "Technology will change everything, but I hope the evenings when the family gathers remain."]],
+};
+
+// ---------- text generation
+const OPEN = ["In {y} years I imagine", "When I think {y} years ahead I see", "I picture a future, maybe {y} years from now, where", "By the time {y} years have passed I hope", "{y} years on, I see", "If I close my eyes and look {y} years ahead, I see", "For my family in {p}, {y} years from now, I imagine", "Here in {p}, {y} years on, I picture", "My honest picture of {y} years from now is"];
+const COPEN = ["Where I live, I think we are heading toward", "My community is moving toward", "Around {p} I see us drifting toward", "Together, I think we are headed for"];
+const PH = {
+ gen:["my grandchildren growing up in a place that is kinder than the one I knew","descendants I will never meet living well because of what we did","children inheriting something worth keeping","my daughter's children asking what we were like, and being proud of the answer","a generation that does not have to start over"],
+ divine:["that whatever comes is part of God's plan and we will be carried through it","a world that keeps its faith and is blessed for it","the will of God unfolding, and our part is to stay faithful","that if we keep praying and keep our word, we will be looked after","the mosque still full on Fridays and the young people still coming"],
+ tech:["machines doing the hard work so people have time for one another","technology that heals more than it harms","cities run by computers that still leave room for people","everyone with a screen in their hand and nobody looking up","robots in the fields and the factories, and I do not know what the young will do"],
+ nature:["rivers that are clean again and forests that have come back","a climate we learned to live with instead of against","the land healthy enough to feed everyone on it","summers hotter than any we have known, and people adapting anyway","the floods coming more often and the old houses moved to higher ground"],
+ community:["my family close by and the neighbors still looking out for each other","a village that remembers its elders and raises its children together","people who stay, instead of leaving","a table with everyone around it, the way my parents had","the community gathering for weddings and funerals as it always has"],
+ cycles:["that what rises will fall and rise again, as it always has","history turning in its cycle, and us learning a little each time","that what we do now returns to us, as it must","hard years followed by good years, the way my grandmother said","the same struggles my parents had, in new clothes"],
+ decline:["things getting worse before anyone admits it","a poorer, angrier country than the one I grew up in","conflict that nobody wanted and nobody could stop","the young leaving and the old left behind","prices rising faster than anyone can earn"],
+ peace:["peace that lasts long enough for people to forget war","justice for people who have waited too long for it","a country where everyone is treated with dignity","leaders who tell the truth and courts that are fair","borders that matter less than they do now"],
+ prosper:["enough work and enough money for a comfortable life","a stronger economy and a better house than my parents had","prosperity that reaches the people who never had it","a small business of my own that my children can take over","a steady salary and a roof that does not leak"],
+ learn:["schools where every child learns, not just the lucky ones","knowledge that is shared instead of sold","my children studying things I never had the chance to","a university degree in the family for the first time","teachers who are paid enough to stay"],
+ health:["long, healthy lives and medicine that reaches the villages","people living longer and more fully than we do","old age without fear","a hospital close enough to reach in time","my parents alive to see it"],
+ duty:["that we did our duty to the people who come after us","that we protected what we were given and left it better","that we were good ancestors","that the land is passed on in better shape than we found it","that someone will say we did not look away"],
+};
+const CPH = ["more of the same, only harder","something better, if the young stay","a slow decline nobody talks about","a bigger city and a thinner community","peace, finally, if the leaders let it","a place our grandparents would not recognize","the same cycle, one more turn"];
+const JOIN = [", and ", ". I also see ", ". Beyond that I imagine ", ". Most of all I hope for ", ". And I think about "];
+const narrOf = sch => sch.includes("cycles") ? "cycle" : sch.includes("decline") ? (rnd() < .6 ? "decline" : "rupture") : sch.includes("tech") || sch.includes("prosper") || sch.includes("learn") ? (rnd() < .8 ? "progress" : "rupture") : rnd() < .55 ? "progress" : "steady";
+const srcOf = (sch, trad) => sch.includes("divine") ? "religious" : sch.includes("duty") || sch.includes("peace") ? (rnd() < .5 ? "philosophical" : "community") : sch.includes("tech") ? (rnd() < .6 ? "narrative" : "science") : trad === "Unaffiliated" ? pick(["science", "experience", "narrative"]) : pick(["community", "religious", "experience"]);
+
+// ---------- synthetic respondents
+const PEOPLE = [];
+const AGEBANDS = ["18–24","25–34","35–44","45–54","55–64","65+"];
+const AGEB = a => a < 25 ? "18–24" : a < 35 ? "25–34" : a < 45 ? "35–44" : a < 55 ? "45–54" : a < 65 ? "55–64" : "65+";
+const EDU = ["Primary","Secondary","University","Postgraduate"], INC = ["Lower","Middle","Higher"], GEN = ["Woman","Man","Woman","Man","Woman","Man","Non-binary"];
+let id = 0;
+COUNTRIES.forEach(c => {
+  const n = rint(118, 142);
+  const keys = Object.keys(c.w), tot = keys.reduce((a, k) => a + c.w[k], 0);
+  const draw = () => { let r = rnd() * tot; for (const k of keys) { r -= c.w[k]; if (r <= 0) return k; } return keys[0]; };
+  const tk = Object.keys(c.trad);
+  for (let i = 0; i < n; i++) {
+    const set = new Set(); while (set.size < rint(2, 3)) set.add(draw());
+    const sch = [...set];
+    let r = rnd(), trad = tk[tk.length - 1]; for (const k of tk) { r -= c.trad[k]; if (r <= 0) { trad = k; break; } }
+    const y = Math.round((c.horizon[0] + rnd() * rnd() * (c.horizon[1] - c.horizon[0])) / 5) * 5 || 5;
+    const place = pick(c.places);
+    let text = pick(OPEN).replace("{y}", y).replace("{p}", place) + " " + sch.map((s, j) => (j ? pick(JOIN) : "") + pick(PH[s])).join("") + ".";
+    const ctext = pick(COPEN).replace("{p}", place) + " " + pick(CPH) + ".";
+    const age = rint(18, 76);
+    const hopeful = sch.includes("decline") ? rint(15, 45) : sch.includes("divine") || sch.includes("peace") ? rint(60, 95) : rint(45, 90);
+    const p = { id: ++id, country: c.n, place, age, ageb: AGEB(age), gender: pick(GEN), edu: pick(EDU), inc: pick(INC), trad, sch, y, text, ctext, lon: 0, lat: 0, narr: narrOf(sch), src: srcOf(sch, trad), orig: null,
+      dims: { horizon: Math.min(100, Math.round(y * 1.1 + rint(-6, 6))), rich: rint(35, 95), valence: hopeful, agency: sch.includes("divine") || sch.includes("cycles") ? rint(20, 60) : sch.includes("duty") || sch.includes("tech") ? rint(55, 92) : rint(40, 85), boundary: sch.includes("gen") || sch.includes("duty") ? rint(65, 97) : sch.includes("community") ? rint(40, 70) : rint(15, 60) } };
+    PEOPLE.push(p);
+  }
+  // attach original-language examples to the first cards of that country
+  (ORIG[c.n] || []).forEach((pair, j) => { const p = PEOPLE.filter(x => x.country === c.n)[j * 3]; if (p) { p.orig = pair[0]; p.text = pair[1]; p.sch = [...new Set([...textSchemas(pair[1]), ...p.sch])].slice(0, 3); const m = pair[1].match(/(\d+)\s*years?/i); if (m) { p.y = +m[1]; p.dims.horizon = Math.min(100, Math.round(p.y * 1.1)); } } });
+});
+function textSchemas(t) { const low = " " + t.toLowerCase() + " "; return SCHEMAS.filter(s => s.kw.some(k => low.includes(k))).map(s => s.id); }
+const tokens = t => t.toLowerCase().replace(/[^a-z' ]/g, " ").split(/\s+/).filter(Boolean);
+
+// ---------- avatar
+const TCOL = { Christian: "var(--s1)", Muslim: "var(--s3)", Hindu: "var(--s2)", Buddhist: "var(--s4)", Unaffiliated: "var(--s6)", Other: "var(--s5)" };
+function avatar(p, size = 52, col) {
+  col = col || TCOL[p.trad] || "var(--s5)";
+  const rings = Math.max(1, EDU.indexOf(p.edu) + 1);
+  const n = 3 + Math.max(0, AGEBANDS.indexOf(p.ageb));
+  let pts = []; for (let i = 0; i < n; i++) { const a = -Math.PI / 2 + i * 2 * Math.PI / n; pts.push((26 + 13 * Math.cos(a)).toFixed(1) + "," + (26 + 13 * Math.sin(a)).toFixed(1)); }
+  let ringsSvg = ""; for (let r = 0; r < rings; r++) ringsSvg += `<circle cx="26" cy="26" r="${19 + r * 2.6}" fill="none" stroke="${col}" stroke-opacity="${.9 - r * .22}" stroke-width="1.2"/>`;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 52 52" aria-hidden="true">${ringsSvg}<polygon points="${pts.join(" ")}" fill="${col}" fill-opacity=".85"/></svg>`;
+}
+
+// ---------- state
+let active = new Set(), query = "", selCountry = null, minH = 0, simMap = null, YOU = null, k = 1;
+const $ = s => document.querySelector(s);
+function matches(p) {
+  if (active.size && ![...active].every(a => p.sch.includes(a))) return false;
+  if (query) { const q = query.toLowerCase(); const qs = textSchemas(q); if (!(p.text.toLowerCase().includes(q) || qs.some(s => p.sch.includes(s)))) return false; }
+  if (minH && p.y < minH) return false;
+  if (selCountry && p.country !== selCountry) return false;
+  return true;
+}
+function matchesNoCountry(p) { const sc = selCountry; selCountry = null; const m = matches(p); selCountry = sc; return m; }
+
+// ---------- chips, questionnaire options, selects
+const chips = $("#chips"), qsEl = $("#qs");
+SCHEMAS.forEach(s => {
+  const b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.dataset.id = s.id; b.innerHTML = `<span class="dot" style="background:${s.col}"></span>${s.name}`;
+  b.addEventListener("click", () => { active.has(s.id) ? active.delete(s.id) : active.add(s.id); render(); }); chips.appendChild(b);
+  const l = document.createElement("label"); l.innerHTML = `<input type="checkbox" id="qs_${s.id}" value="${s.id}"> ${s.name}`; qsEl.appendChild(l);
+});
+["#jump", "#cA", "#cB", "#dCountry"].forEach(sel => COUNTRIES.forEach(c => { const o = document.createElement("option"); o.value = c.n; o.textContent = c.n; $(sel).appendChild(o); }));
+{ const o = document.createElement("option"); o.value = "Other"; o.textContent = "Another country"; $("#dCountry").appendChild(o); }
+Object.keys(SRC).forEach(kk => { const l = document.createElement("label"); l.innerHTML = `<input type="checkbox" id="qinf_${kk}" value="${kk}"> ${SRC[kk]}`; $("#qinf").appendChild(l); });
+$("#cA").value = "Sweden"; $("#cB").value = "Ghana";
+try { if (localStorage.getItem("atlas-guide") === "done") $("#guide").hidden = true; } catch (e) {}
+$("#guideClose").addEventListener("click", () => { $("#guide").hidden = true; try { localStorage.setItem("atlas-guide", "done"); } catch (e) {} });
+
+// ---------- map
+const svg = d3.select("#map"), W = 960, H = 500;
+const proj = d3.geoNaturalEarth1().scale(165).translate([W / 2, H / 2 + 10]);
+const path = d3.geoPath(proj);
+const gAll = svg.append("g"), gLand = gAll.append("g"), gDots = gAll.append("g"), gAgg = gAll.append("g").attr("class", "agg");
+const AGG_K = 2.4;
+function applyZoomStyles() {
+  const showDots = k >= AGG_K || !!selCountry;
+  gDots.style("display", showDots ? null : "none"); gAgg.style("display", showDots ? "none" : null);
+  gDots.selectAll("circle").attr("r", 2.6 / Math.sqrt(k)).attr("stroke-width", .6 / Math.sqrt(k));
+  gLand.selectAll("path").attr("stroke-width", d => (MAP2N[d.properties.n] === selCountry ? 1.2 : .5) / k);
+}
+const zoom = d3.zoom().scaleExtent([1, 9]).translateExtent([[0, 0], [W, H]]).on("zoom", ev => { k = ev.transform.k; gAll.attr("transform", ev.transform); applyZoomStyles(); });
+svg.call(zoom);
+$("#zin").addEventListener("click", () => svg.transition().duration(DUR / 2).call(zoom.scaleBy, 1.6));
+$("#zout").addEventListener("click", () => svg.transition().duration(DUR / 2).call(zoom.scaleBy, 1 / 1.6));
+function resetView() { selCountry = null; svg.transition().duration(DUR).call(zoom.transform, d3.zoomIdentity); render(); }
+$("#zreset").addEventListener("click", resetView);
+function zoomTo(feature) {
+  const [[x0, y0], [x1, y1]] = path.bounds(feature);
+  const s = Math.min(9, Math.max(AGG_K, 0.85 / Math.max((x1 - x0) / W, (y1 - y0) / H)));
+  svg.transition().duration(DUR).call(zoom.transform, d3.zoomIdentity.translate(W / 2, H / 2).scale(s).translate(-(x0 + x1) / 2, -(y0 + y1) / 2));
+}
+function selectCountry(n) { if (!n || selCountry === n) { resetView(); return; } selCountry = n; if (FEAT[n]) zoomTo(FEAT[n]); render(); }
+$("#jump").addEventListener("change", e => { selectCountry(e.target.value); e.target.value = ""; });
+const tip = $("#tip");
+function showTip(ev, html) { tip.innerHTML = html; tip.style.display = "block"; tip.style.left = Math.min(ev.clientX + 12, window.innerWidth - 290) + "px"; tip.style.top = (ev.clientY + 12) + "px"; }
+function hideTip() { tip.style.display = "none"; }
+const MAP2N = Object.fromEntries(COUNTRIES.map(c => [c.map, c.n]));
+const FEAT = {}, CENT = {};
+fetch("world.json").then(r => r.json()).then(g => {
+  g.features.forEach(f => { const n = MAP2N[f.properties.n]; if (n) { FEAT[n] = f; CENT[n] = d3.geoCentroid(f); } });
+  CENT["United States"] = [-98, 39]; CENT["Japan"] = [138, 36.5]; CENT["Indonesia"] = [114, -2]; CENT["Philippines"] = [122, 12];
+  let rs = 7; const r2 = () => { rs = (rs * 1664525 + 1013904223) % 4294967296; return rs / 4294967296; };
+  // each respondent sits at the city or region they named, with a small spread; points that land in the sea are pulled back toward the place
+  PEOPLE.forEach(p => {
+    const pl = PLACE[p.place] || CENT[p.country].concat([.5]); const f = FEAT[p.country];
+    let lon = pl[0], lat = pl[1];
+    for (let t = 0; t < 12; t++) { const a = r2() * 2 * Math.PI, d = pl[2] * Math.sqrt(r2()); const L = pl[0] + d * Math.cos(a) / Math.max(.3, Math.cos(pl[1] * Math.PI / 180)), T = pl[1] + d * Math.sin(a); if (!f || d3.geoContains(f, [L, T])) { lon = L; lat = T; break; } }
+    p.lon = lon; p.lat = lat;
+  });
+  gLand.selectAll("path").data(g.features).join("path").attr("d", path).attr("class", d => "country" + (MAP2N[d.properties.n] ? " site" : ""))
+    .on("mousemove", (ev, d) => { const n = MAP2N[d.properties.n]; if (!n) return; const st = stats()[n]; showTip(ev, `<b>${n}</b><br>${st.hit} of ${st.all} respondents match${simMap ? `<br>${st.share} share your future` : ""}<br><i>Click to zoom in</i>`); })
+    .on("mouseleave", hideTip).on("click", (ev, d) => selectCountry(MAP2N[d.properties.n]));
+  gDots.selectAll("circle").data(PEOPLE).join("circle").attr("class", "resp").attr("cx", p => proj([p.lon, p.lat])[0]).attr("cy", p => proj([p.lon, p.lat])[1])
+    .on("mousemove", (ev, p) => { ev.stopPropagation(); showTip(ev, `<b>${p.place}, ${p.country}</b> · ${p.ageb}, ${p.gender}, ${p.trad}<br>${p.sch.map(s => S[s].name).join(" · ")}${simMap ? `<br>${Math.round(100 * simMap.get(p.id))}% similar to you` : ""}<br><i>Click to read</i>`); })
+    .on("mouseleave", hideTip).on("click", (ev, p) => { ev.stopPropagation(); renderPeople([p], true); });
+  const agg = gAgg.selectAll("g").data(COUNTRIES).join("g").attr("transform", c => `translate(${proj(CENT[c.n])})`);
+  agg.append("circle").on("mousemove", (ev, c) => { const st = stats()[c.n]; showTip(ev, `<b>${c.n}</b><br>${st.hit} of ${st.all} respondents match${simMap ? `<br>${st.share} share your future` : ""}<br><i>Click to zoom in</i>`); }).on("mouseleave", hideTip).on("click", (ev, c) => { ev.stopPropagation(); selectCountry(c.n); });
+  agg.append("text").attr("text-anchor", "middle").attr("dy", c => -Math.sqrt(PEOPLE.filter(p => p.country === c.n).length) * 1.15 - 4).text(c => c.n);
+  agg.append("text").attr("class", "n").attr("text-anchor", "middle").attr("dy", 3);
+  applyZoomStyles(); readHash(); render();
+  LANDFEATS = g.features; initGlobe();
+}).catch(() => render());
+
+function stats() { const st = {}; COUNTRIES.forEach(c => st[c.n] = { all: 0, hit: 0, share: 0 }); PEOPLE.forEach(p => { st[p.country].all++; if (matchesNoCountry(p)) st[p.country].hit++; if (simMap && simMap.get(p.id) >= 0.72) st[p.country].share++; }); return st; }
+
+// ---------- render
+function render() {
+  const st = stats(); const filtered = PEOPLE.filter(matches);
+  const anyFilter = active.size || query || minH;
+  chips.querySelectorAll(".chip").forEach(b => b.classList.toggle("on", active.has(b.dataset.id)));
+  const cs = getComputedStyle(document.documentElement);
+  const land = d3.interpolate(cs.getPropertyValue("--land").trim(), cs.getPropertyValue("--accent").trim());
+  gLand.selectAll("path.site").style("fill", d => { const s = st[MAP2N[d.properties.n]]; const share = s.all ? s.hit / s.all : 0; return anyFilter ? land(Math.min(1, share * 1.6)) : land(.45); }).classed("sel", d => MAP2N[d.properties.n] === selCountry);
+  gDots.selectAll("circle.resp").classed("dim", p => !matches(p)).classed("match", p => simMap && simMap.get(p.id) >= 0.72);
+  gAgg.selectAll("g").each(function (c) { const s = st[c.n]; const g = d3.select(this); g.select("circle").attr("r", Math.sqrt(s.all) * 1.15).style("fill-opacity", anyFilter ? .25 + .6 * (s.hit / s.all) : .55).classed("sel", c.n === selCountry).style("fill", simMap && s.share > 8 ? "var(--you)" : null); g.select("text.n").text(anyFilter ? s.hit : s.all); });
+  applyZoomStyles();
+  const label = [...active].map(a => S[a].name).concat(query ? [`“${query}”`] : []).concat(minH ? [`${minH}+ years ahead`] : []).join(" + ");
+  $("#mapTitle").textContent = anyFilter ? `Where “${label}” is imagined` : "Where futures are imagined";
+  $("#mapMeta").textContent = `${filtered.length} of ${PEOPLE.length} shown${selCountry ? " · " + selCountry : ""}`;
+  $("#peopleTitle").textContent = anyFilter ? "People who imagine this" : selCountry ? `People in ${selCountry}` : "People in the corpus";
+  $("#peopleMeta").textContent = `${filtered.length} matching · showing ${Math.min(40, filtered.length)}`;
+  renderPeople(filtered.slice(0, 40));
+  renderProfile(st); renderCo(); renderStrip(); renderCompare();
+  $("#jump").querySelectorAll("option").forEach(o => o.selected = false);
+}
+function card(p, extra = "") {
+  const q = query.toLowerCase(), qsch = query ? textSchemas(q) : [];
+  const sim = simMap ? `<span class="sim">${Math.round(100 * simMap.get(p.id))}% similar to you</span>` : "";
+  const lang = p.orig ? `<div class="lang"><button type="button" class="small ghost" data-orig="${p.id}">Read in ${C[p.country].lang}</button></div>` : "";
+  return `<div class="card${extra ? " you" : ""}" data-id="${p.id}"><div>${avatar(p)}</div><div style="min-width:0">
+    <div class="who"><b>${p.place}, ${p.country}</b><span>${p.ageb}</span><span>${p.gender}</span><span>${p.inc} income</span><span>${p.edu}</span><span>${p.trad}</span>${extra || sim}</div>
+    <div class="ans" data-en="1">${p.text}</div><div class="tags">${p.sch.map(s => `<span class="tag${active.has(s) || qsch.includes(s) ? " hit" : ""}">${S[s].name}</span>`).join("")}<span class="tag plain">${p.y}-year horizon</span><span class="tag plain">${NARR[p.narr]}</span><span class="tag plain">source: ${SRC[p.src]}</span></div>${lang}</div></div>`;
+}
+function wireOrig(root) { root.querySelectorAll("button[data-orig]").forEach(b => b.addEventListener("click", () => { const p = PEOPLE[+b.dataset.orig - 1]; const ans = b.closest(".card").querySelector(".ans"); const en = ans.dataset.en === "1"; ans.textContent = en ? p.orig : p.text; ans.dataset.en = en ? "0" : "1"; ans.setAttribute("lang", en ? "" : "en"); b.textContent = en ? "Read in English" : `Read in ${C[p.country].lang}`; })); }
+function renderPeople(list, single = false) {
+  const el = $("#people");
+  if (single) { el.innerHTML = `<div class="hint" style="padding:0 0 4px">One respondent from the map. <button class="small" type="button" id="backList">Back to the list</button></div>` + card(list[0]); $("#backList").addEventListener("click", () => render()); wireOrig(el); return; }
+  el.innerHTML = list.length ? list.map(p => card(p)).join("") : `<div class="hint" style="padding:8px 0">No one in the corpus matches yet. Try a broader term, a shorter horizon, or clear a schema.</div>`;
+  wireOrig(el);
+}
+const DIMS = [["Temporal horizon", "horizon"], ["Richness", "rich"], ["Content and valence", "valence"], ["Agency", "agency"], ["Social boundary", "boundary"]];
+function radar(series, size = 260) {
+  const pad = 70, cx = size / 2, cy = size / 2, R = size / 2 - 26, n = DIMS.length;
+  const ang = i => -Math.PI / 2 + i * 2 * Math.PI / n;
+  const pt = (i, v) => [cx + R * v / 100 * Math.cos(ang(i)), cy + R * v / 100 * Math.sin(ang(i))];
+  let g = "";
+  [25, 50, 75, 100].forEach(v => { g += `<polygon class="grid-l" points="${DIMS.map((d, i) => pt(i, v).join(",")).join(" ")}"/>`; });
+  DIMS.forEach((d, i) => { const [x, y] = pt(i, 100); const c = Math.cos(ang(i)), s = Math.sin(ang(i)); const lx = cx + (R + 10) * c, ly = cy + (R + 10) * s; const anchor = Math.abs(c) < .2 ? "middle" : c > 0 ? "start" : "end"; const base = s < -.2 ? "auto" : s > .2 ? "hanging" : "middle"; g += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" class="grid-l"/><text class="axis-l" x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anchor}" dominant-baseline="${base}">${d[0]}</text>`; });
+  series.forEach(s => { g += `<polygon points="${DIMS.map((d, i) => pt(i, s.v[d[1]] || 0).join(",")).join(" ")}" fill="${s.col}" fill-opacity=".18" stroke="${s.col}" stroke-width="2"/>`; });
+  return `<svg class="radar" style="max-width:${size + 2 * pad}px" viewBox="${-pad} -14 ${size + 2 * pad} ${size + 28}" role="img" aria-label="Radar of five dimensions">${g}</svg>`;
+}
+const meanDims = ps => Object.fromEntries(DIMS.map(([l, kk]) => [kk, Math.round(d3.mean(ps, p => p.dims[kk]))]));
+function renderProfile(st) {
+  const el = $("#profile");
+  if (!selCountry) { el.innerHTML = `<div class="hint" style="padding:0;grid-column:1/-1">Click a country, or choose one from the list on the map, to zoom in and see how its respondents imagine the future: horizon, richness, valence, agency, social boundary, and the schemas they draw on.</div>`; return; }
+  const ps = PEOPLE.filter(p => p.country === selCountry); const md = meanDims(ps);
+  const top = d3.rollups(ps.flatMap(p => p.sch), v => v.length, s => s).sort((a, b) => b[1] - a[1]).slice(0, 4);
+  const narr = d3.rollups(ps, v => v.length, p => p.narr).sort((a, b) => b[1] - a[1]).slice(0, 2);
+  const c = C[selCountry]; const tr = Object.entries(c.trad).map(([kk, v]) => `${kk} ${Math.round(v * 100)}%`).join(", ");
+  const series = [{ v: md, col: "var(--accent)" }]; if (YOU) series.push({ v: YOU.d, col: "var(--you)" });
+  el.innerHTML = `<div><h3>${selCountry}</h3><div class="hint" style="padding:0">${ps.length} respondents · ${tr} · survey language ${c.lang}</div><div style="margin-top:8px;font-size:13px;color:var(--ink-2)">Most common schemas</div><div class="tags" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">${top.map(([s, n]) => `<span class="tag">${S[s].name} · ${Math.round(100 * n / ps.length)}%</span>`).join("")}</div><div style="margin-top:8px;font-size:13px;color:var(--ink-2)">Narrative form</div><div class="tags" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">${narr.map(([s, n]) => `<span class="tag plain">${NARR[s]} · ${Math.round(100 * n / ps.length)}%</span>`).join("")}</div>${st[selCountry].share ? `<div style="margin-top:8px;font-size:13px;color:var(--you)">${st[selCountry].share} people here share your future</div>` : ""}</div>
+  <div>${radar(series)}<div class="bars" style="margin-top:6px">${DIMS.map(([lab, kk]) => `<div class="bar"><span>${lab}</span><div class="track"><div class="fill" style="width:${md[kk]}%"></div>${YOU ? `<div class="youmark" style="left:calc(${YOU.d[kk]}% - 1px)" title="You"></div>` : ""}</div><span class="num">${md[kk]}</span></div>`).join("")}<div class="hint" style="padding:4px 0 0">Corpus mean on a 0 to 100 scale.${YOU ? " Orange is you." : ""}</div></div></div>`;
+}
+function renderCo() {
+  const el = $("#co");
+  if (active.size !== 1) { el.innerHTML = ""; return; }
+  const a = [...active][0]; const pool = PEOPLE.filter(p => p.sch.includes(a) && (!selCountry || p.country === selCountry));
+  const co = d3.rollups(pool.flatMap(p => p.sch.filter(s => s !== a)), v => v.length, s => s).sort((x, y) => y[1] - x[1]).slice(0, 5);
+  const max = co.length ? co[0][1] : 1;
+  el.innerHTML = `<div class="eyebrow" style="margin-bottom:6px">${S[a].name} travels with${selCountry ? " in " + selCountry : ""}</div><div class="bars">${co.map(([s, n]) => `<div class="bar"><span>${S[s].name}</span><div class="track"><div class="fill" style="width:${100 * n / max}%;background:${S[s].col}"></div></div><span class="num">${Math.round(100 * n / pool.length)}%</span></div>`).join("")}</div>`;
+}
+function renderStrip() {
+  const el = $("#strip"); const bins = [[0, 12], [13, 27], [28, 52], [53, 999]];
+  el.innerHTML = COUNTRIES.map(c => { const ps = PEOPLE.filter(p => p.country === c.n); const cnt = bins.map(([a, b]) => ps.filter(p => p.y >= a && p.y <= b).length); const mx = Math.max(...cnt);
+    return `<div class="mini${c.n === selCountry ? " sel" : ""}" data-n="${c.n}" role="button" tabindex="0" aria-label="${c.n}: horizon distribution"><div class="lab">${c.n}</div><svg viewBox="0 0 60 36" aria-hidden="true">${cnt.map((v, i) => `<rect x="${i * 15 + 1}" y="${26 - 24 * v / mx}" width="12" height="${24 * v / mx}" rx="1"/>`).join("")}<text class="axis" x="7" y="34" text-anchor="middle">5</text><text class="axis" x="53" y="34" text-anchor="middle">55+</text></svg></div>`; }).join("");
+  el.querySelectorAll(".mini").forEach(m => { const go = () => { selectCountry(m.dataset.n); document.getElementById("explore").scrollIntoView({ behavior: REDUCED ? "auto" : "smooth" }); }; m.addEventListener("click", go); m.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } }); });
+}
+function renderCompare() {
+  const a = $("#cA").value, b = $("#cB").value; const pa = PEOPLE.filter(p => p.country === a), pb = PEOPLE.filter(p => p.country === b);
+  const ma = meanDims(pa), mb = meanDims(pb);
+  $("#cmpRadar").innerHTML = `<div class="srow" style="font-size:13px;margin-bottom:4px"><span><span class="dot" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent);margin-right:5px"></span>${a}</span><span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--s2);margin-right:5px"></span>${b}</span></div>` + radar([{ v: ma, col: "var(--accent)" }, { v: mb, col: "var(--s2)" }]);
+  const share = (ps, s) => ps.filter(p => p.sch.includes(s)).length / ps.length;
+  const rows = SCHEMAS.map(s => ({ s, a: share(pa, s.id), b: share(pb, s.id) })).sort((x, y) => Math.abs(y.a - y.b) - Math.abs(x.a - x.b)).slice(0, 7);
+  $("#cmpDiff").innerHTML = `<h3 style="font-size:16px">Where they differ most</h3><div class="diff"><div><span class="hd">schema</span><span class="n hd">${a.split(" ")[0]}</span><span class="n hd">${b.split(" ")[0]}</span></div>${rows.map(r => `<div><span>${r.s.name}</span><span class="n" style="color:${r.a > r.b ? "var(--accent)" : "inherit"}">${Math.round(100 * r.a)}%</span><span class="n" style="color:${r.b > r.a ? "var(--s2)" : "inherit"}">${Math.round(100 * r.b)}%</span></div>`).join("")}</div><div class="hint" style="padding:8px 0 0">Share of respondents in each country whose future draws on the schema. Dimensions on the radar: ${DIMS.map(([l, kk]) => `${l.toLowerCase()} ${ma[kk]} vs ${mb[kk]}`).join("; ")}.</div>`;
+}
+$("#cA").addEventListener("change", renderCompare); $("#cB").addEventListener("change", renderCompare);
+
+// ---------- search, slider, share link
+$("#searchForm").addEventListener("submit", e => { e.preventDefault(); query = $("#q").value.trim(); render(); });
+$("#clear").addEventListener("click", () => { query = ""; $("#q").value = ""; active.clear(); minH = 0; $("#hz").value = 0; $("#hzv").textContent = "any distance"; selCountry = null; svg.transition().duration(DUR / 2).call(zoom.transform, d3.zoomIdentity); render(); });
+$("#hz").addEventListener("input", e => { minH = +e.target.value; $("#hzv").textContent = minH ? `at least ${minH} years ahead` : "any distance"; render(); });
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.style.display = "block"; setTimeout(() => t.style.display = "none", 2200); }
+function buildHash() { const parts = []; if (active.size) parts.push("s_" + [...active].join("_")); if (query) parts.push("q_" + query.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")); if (minH) parts.push("h_" + minH); if (selCountry) parts.push("c_" + CIDX[selCountry]); return parts.join("."); }
+function readHash() { const h = (location.hash || "").replace("#", ""); if (!h || !h.includes("_")) return; h.split(".").forEach(part => { const [kk, v] = [part.slice(0, 1), part.slice(2)]; if (kk === "s") v.split("_").forEach(s => S[s] && active.add(s)); if (kk === "q") { query = v.replace(/-/g, " "); $("#q").value = query; } if (kk === "h") { minH = +v || 0; $("#hz").value = minH; $("#hzv").textContent = minH ? `at least ${minH} years ahead` : "any distance"; } if (kk === "c") { const c = COUNTRIES[+v]; if (c) { selCountry = c.n; if (FEAT[c.n]) zoomTo(FEAT[c.n]); } } }); }
+$("#share").addEventListener("click", () => { const h = buildHash(); const url = location.href.split("#")[0] + (h ? "#" + h : ""); const done = () => toast("Link copied. It reopens this exact view."); const fallback = () => { const i = document.createElement("input"); i.value = url; document.body.appendChild(i); i.select(); try { document.execCommand("copy"); done(); } catch (e) { toast(url); } i.remove(); }; if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done).catch(fallback); else fallback(); });
+
+// ---------- questionnaire and similarity index
+const qh = $("#qh"), qv = $("#qv"), qa = $("#qa"), qr = $("#qr");
+qh.addEventListener("input", () => $("#qhv").textContent = qh.value + (qh.value == 100 ? "+ years" : " years"));
+qv.addEventListener("input", () => $("#qvv").textContent = qv.value + " of 7");
+qa.addEventListener("input", () => $("#qav").textContent = qa.value + " of 7");
+qr.addEventListener("input", () => $("#qrv").textContent = qr.value + " of 7");
+const EXAMPLES = [
+ { t: "In forty years I imagine my grandchildren living in a town where the river is clean again and people still know their neighbors. I think we owe that to them.", c: "My community is slowly getting better, if the young people stay.", h: 40, b: "95", n: "progress", r: 6, v: 6, a: 5, s: ["gen", "nature", "duty"], src: "philosophical", inf: ["philosophical", "science", "community"], age: "35–44", gender: "Woman", country: "Sweden", city: "Umeå", trad: "Unaffiliated" },
+ { t: "Twenty years from now I see machines doing most of the work and people struggling to find what they are for. I am afraid it gets worse before it gets better.", c: "Where I live we are heading toward a bigger city and a thinner community.", h: 20, b: "55", n: "rupture", r: 5, v: 2, a: 3, s: ["tech", "decline"], src: "science", inf: ["science", "narrative", "social"], age: "25–34", gender: "Man", country: "South Korea", city: "Busan", trad: "Unaffiliated" },
+ { t: "I believe the future is in God's hands. Thirty years on I hope my family is still together, still praying, and that we have been blessed with peace.", c: "Our village will stay much the same, and I am glad of it.", h: 30, b: "35", n: "steady", r: 4, v: 6, a: 2, s: ["divine", "community", "peace"], src: "religious", inf: ["religious", "community"], age: "45–54", gender: "Woman", country: "Ghana", city: "Kumasi", trad: "Christian" },
+];
+$("#example").addEventListener("click", () => { const e = pick(EXAMPLES); $("#you").value = e.t; $("#youc").value = e.c; qh.value = e.h; $("#qb").value = e.b; $("#qn").value = e.n; qr.value = e.r; qv.value = e.v; qa.value = e.a; $("#qsrc").value = e.src; $("#dAge").value = e.age; $("#dGender").value = e.gender; $("#dCountry").value = e.country; $("#dCity").value = e.city; $("#dTrad").value = e.trad; [qh, qv, qa, qr].forEach(x => x.dispatchEvent(new Event("input"))); SCHEMAS.forEach(s => $("#qs_" + s.id).checked = e.s.includes(s.id)); Object.keys(SRC).forEach(kk => $("#qinf_" + kk).checked = e.inf.includes(kk)); });
+function overlap(a, b) { const A = new Set(a), B = new Set(b); if (!A.size || !B.size) return 0; let i = 0; A.forEach(x => { if (B.has(x)) i++; }); return i / Math.sqrt(A.size * B.size); }
+const close = (a, b, span) => Math.max(0, 1 - Math.abs(a - b) / span);
+const NARR_NEAR = { progress: { steady: .5, rupture: .4 }, decline: { rupture: .5, cycle: .3 }, cycle: { steady: .4, decline: .3 }, rupture: { progress: .4, decline: .5 }, steady: { progress: .5, cycle: .4 } };
+$("#youForm").addEventListener("submit", e => {
+  e.preventDefault(); const t = $("#you").value.trim(), tc = $("#youc").value.trim();
+  const checked = SCHEMAS.filter(s => $("#qs_" + s.id).checked).map(s => s.id);
+  const ys = [...new Set([...textSchemas(t + " " + tc), ...checked])];
+  if (!t && !ys.length) { $("#you").focus(); return; }
+  const yt = tokens(t + " " + tc).filter(w => w.length > 3);
+  const narr = $("#qn").value;
+  const d = { horizon: Math.min(100, Math.round(+qh.value * 1.1)), boundary: +$("#qb").value, valence: Math.round((+qv.value - 1) / 6 * 100), agency: Math.round((+qa.value - 1) / 6 * 100), rich: Math.round((+qr.value - 1) / 6 * 100) };
+  const me = { ageb: $("#dAge").value, gender: $("#dGender").value, city: $("#dCity").value.trim(), edu: "University", trad: $("#dTrad").value || "Other", country: $("#dCountry").value === "Other" ? "" : $("#dCountry").value, src: $("#qsrc").value, inf: Object.keys(SRC).filter(kk => $("#qinf_" + kk).checked) };
+  YOU = { ys, d, narr, me };
+  const parts = p => ({ schema: 0.5 * overlap(ys, p.sch) + 0.5 * overlap(yt, tokens(p.text).filter(w => w.length > 3)), horizon: close(d.horizon, p.dims.horizon, 60), boundary: close(d.boundary, p.dims.boundary, 70), valence: close(d.valence, p.dims.valence, 60), agency: close(d.agency, p.dims.agency, 60), narr: p.narr === narr ? 1 : (NARR_NEAR[narr] || {})[p.narr] || 0, rich: close(d.rich, p.dims.rich, 70) });
+  const Wt = { schema: .3, horizon: .12, boundary: .12, valence: .12, agency: .12, narr: .12, rich: .10 };
+  const scored = PEOPLE.map(p => { const pr = parts(p); return { p, pr, s: Object.keys(Wt).reduce((acc, kk) => acc + Wt[kk] * pr[kk], 0) }; }).sort((x, y) => y.s - x.s);
+  simMap = new Map(scored.map(dd => [dd.p.id, dd.s]));
+  const like = scored.filter(dd => dd.s >= 0.72); const top = scored.slice(0, 5);
+  const index = Math.round(100 * d3.mean(scored.slice(0, 30), dd => dd.s));
+  const byC = d3.rollups(like, v => v.length, dd => dd.p.country).sort((x, y) => y[1] - x[1]).slice(0, 7);
+  const shared = d3.rollups(like.flatMap(dd => dd.p.sch.filter(s => !ys.includes(s))), v => v.length, s => s).sort((x, y) => y[1] - x[1])[0];
+  const pool = like.length ? like : scored.slice(0, 30); const means = kk => d3.mean(pool, dd => dd.pr[kk]);
+  const peers = me.ageb && me.country ? scored.filter(dd => dd.p.country === me.country && dd.p.ageb === me.ageb) : [];
+  const peerSim = peers.length ? Math.round(100 * d3.mean(peers, dd => dd.s)) : null;
+  $("#result").hidden = false;
+  const r = 50, circ = 2 * Math.PI * r, pct = Math.max(4, index);
+  $("#ring").innerHTML = `<circle cx="60" cy="60" r="${r}" fill="none" stroke="var(--land)" stroke-width="10"/><circle cx="60" cy="60" r="${r}" fill="none" stroke="var(--you)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${circ * pct / 100} ${circ}" transform="rotate(-90 60 60)"/><text x="60" y="66" text-anchor="middle" font-size="26">${pct}</text>`;
+  $("#scoreText").innerHTML = `Your future draws on <b>${ys.length ? ys.map(s => S[s].name).join(", ") : "themes the prototype does not yet recognize"}</b>, looks about <b>${qh.value} years</b> ahead, includes <b>${$("#qb").options[$("#qb").selectedIndex].text.toLowerCase()}</b>, and has the shape <b>${NARR[narr].toLowerCase()}</b>. <b>${like.length}</b> of ${PEOPLE.length} people in the corpus share it closely${shared ? `, and among them <b>${Math.round(100 * shared[1] / like.length)}%</b> also mention <b>${S[shared[0]].name}</b>` : ""}.${peerSim !== null ? ` People your age in ${me.country} score <b>${peerSim}</b> on average against your answers.` : ""} They are now marked in orange on the map.`;
+  const youSeries = [{ v: d, col: "var(--you)" }]; if (me.country) youSeries.unshift({ v: meanDims(PEOPLE.filter(p => p.country === me.country)), col: "var(--accent)" });
+  $("#youRadarWrap").innerHTML = `<div>${radar(youSeries, 240)}<div class="hint" style="padding:0">${me.country ? `Orange is you; teal is the ${me.country} mean.` : "Your five dimensions."}</div></div><div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:10px"><div style="width:84px">${avatar({ ageb: me.ageb || "35–44", edu: me.edu, trad: me.trad }, 84, "var(--you)")}</div><div class="hint" style="padding:0;text-align:center">Your avatar, as you would appear in the Atlas${[me.city && me.country ? `${me.city}, ${me.country}` : me.city || me.country, me.ageb, me.gender && !/prefer/i.test(me.gender) ? me.gender : "", me.trad !== "Other" && !/prefer/i.test(me.trad) ? me.trad : ""].filter(Boolean).length ? ": " + [me.city && me.country ? `${me.city}, ${me.country}` : me.city || me.country, me.ageb, me.gender && !/prefer/i.test(me.gender) ? me.gender : "", me.trad !== "Other" && !/prefer/i.test(me.trad) ? me.trad : ""].filter(Boolean).join(", ") : ""}.${me.inf.length ? ` Influenced by ${me.inf.map(kk => SRC[kk].toLowerCase()).join(", ")}.` : ""}</div></div>`;
+  const labels = { schema: "Themes and schemas", horizon: "How far ahead", boundary: "Who is included", narr: "Shape of the future", rich: "How clearly pictured", valence: "How hopeful", agency: "How much agency" };
+  $("#breakdown").innerHTML = `<div class="eyebrow" style="margin-bottom:4px">What you share with the people most like you</div>` + Object.keys(labels).map(kk => `<div class="bar"><span>${labels[kk]}</span><div class="track"><div class="fill" style="width:${Math.round(100 * means(kk))}%;background:var(--you)"></div></div><span class="num">${Math.round(100 * means(kk))}</span></div>`).join("");
+  const max = byC.length ? byC[0][1] : 1;
+  $("#shareBars").innerHTML = `<div class="eyebrow" style="margin:6px 0 4px">Where your future is shared</div>` + (byC.length ? byC.map(([c, n]) => `<div class="bar"><span>${c}</span><div class="track"><div class="fill" style="width:${100 * n / max}%;background:var(--you)"></div></div><span class="num">${n}</span></div>`).join("") : `<div class="hint" style="padding:0">No close matches yet. Add a few more sentences or tick a schema.</div>`) + `<div class="eyebrow" style="margin:12px 0 6px">People most like you</div>` + top.map(dd => card(dd.p, `<span class="sim">${Math.round(100 * dd.s)}% similar</span>`)).join("");
+  wireOrig($("#shareBars"));
+  renderGlyph(); dirty = true;
+  render();
+  $("#result").scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "nearest" });
+});
+
+// ---------- globe hero (canvas, orthographic) and scroll story
+const gcv = $("#globe"), gctx = gcv.getContext("2d"), GS = 640;
+let LANDFEATS = null, rot = [30, -15], autoRot = !REDUCED, dragging = false, idleT = 0, storyStep = 0, flying = false, dirty = true;
+const gproj = d3.geoOrthographic().scale(GS / 2 - 12).translate([GS / 2, GS / 2]).clipAngle(90);
+const gpath = d3.geoPath(gproj, gctx), GRAT = d3.geoGraticule10(), STATS = {}, pulses = [];
+function computeStats() { STATS.people = PEOPLE.length; STATS.far = Math.round(100 * PEOPLE.filter(p => p.y >= 30).length / PEOPLE.length); STATS.unborn = Math.round(100 * PEOPLE.filter(p => p.dims.boundary > 70).length / PEOPLE.length); STATS.divine = Math.round(100 * PEOPLE.filter(p => p.sch.includes("divine")).length / PEOPLE.length); STATS.medH = {}; COUNTRIES.forEach(c => STATS.medH[c.n] = d3.median(PEOPLE.filter(p => p.country === c.n), p => p.y)); }
+const cssv = nm => getComputedStyle(document.documentElement).getPropertyValue(nm).trim();
+function setupCanvas() { const dpr = Math.min(2, window.devicePixelRatio || 1); const w = gcv.clientWidth || GS; const px = Math.round(w * dpr); if (gcv.width !== px) { gcv.width = px; gcv.height = px; } gctx.setTransform(gcv.width / GS, 0, 0, gcv.height / GS, 0, 0); }
+function dotStyle(p, acc, you) {
+  if (storyStep === 1) return [d3.interpolateRgb(acc, you)(Math.min(1, p.y / 70)), .9];
+  if (storyStep === 2) return p.dims.boundary > 70 ? [you, .95] : [acc, .12];
+  if (storyStep === 3) return p.sch.includes("divine") ? [you, .95] : [acc, .12];
+  if (simMap) return simMap.get(p.id) >= .72 ? [you, .95] : [acc, .3];
+  return [acc, .8];
+}
+function drawGlobe() {
+  if (!LANDFEATS) return; setupCanvas();
+  const land = cssv("--land"), line = cssv("--line"), panel = cssv("--panel"), landline = cssv("--land-line"), acc = cssv("--accent"), you = cssv("--you");
+  gproj.rotate(rot); gctx.clearRect(0, 0, GS, GS);
+  gctx.beginPath(); gpath({ type: "Sphere" }); gctx.fillStyle = panel; gctx.fill(); gctx.strokeStyle = line; gctx.lineWidth = 1; gctx.stroke();
+  gctx.beginPath(); gpath(GRAT); gctx.strokeStyle = line; gctx.globalAlpha = .45; gctx.lineWidth = .5; gctx.stroke(); gctx.globalAlpha = 1;
+  const landI = d3.interpolateRgb(land, acc);
+  LANDFEATS.forEach(f => { const nn = MAP2N[f.properties.n]; gctx.beginPath(); gpath(f); gctx.fillStyle = nn ? (storyStep === 1 ? landI(Math.min(1, (STATS.medH[nn] || 10) / 45)) : landI(.4)) : land; gctx.fill(); gctx.strokeStyle = landline; gctx.lineWidth = .5; gctx.stroke(); });
+  const center = [-rot[0], -rot[1]];
+  PEOPLE.forEach(p => { if (!p.lon && !p.lat) return; if (d3.geoDistance([p.lon, p.lat], center) > 1.5) return; const c = gproj([p.lon, p.lat]); if (!c) return; const st = dotStyle(p, acc, you); gctx.globalAlpha = st[1]; gctx.fillStyle = st[0]; gctx.beginPath(); gctx.arc(c[0], c[1], 1.7, 0, 6.283); gctx.fill(); });
+  gctx.globalAlpha = 1;
+  const now = performance.now();
+  for (let i = pulses.length - 1; i >= 0; i--) { const q = pulses[i]; const t = (now - q.t0) / 1400; if (t > 1) { pulses.splice(i, 1); continue; } if (d3.geoDistance([q.lon, q.lat], center) > 1.5) continue; const c = gproj([q.lon, q.lat]); if (!c) continue; gctx.beginPath(); gctx.arc(c[0], c[1], 3 + 22 * t, 0, 6.283); gctx.strokeStyle = you; gctx.globalAlpha = 1 - t; gctx.lineWidth = 1.5; gctx.stroke(); gctx.globalAlpha = 1; }
+}
+let lastFrame = 0;
+function frame(now) { const dt = Math.min(50, (now - lastFrame) || 16); lastFrame = now; if (autoRot && !dragging && !flying && now - idleT > 2500) { rot[0] += 0.006 * dt; dirty = true; } if (pulses.length) dirty = true; if (dirty) { drawGlobe(); dirty = false; } requestAnimationFrame(frame); }
+function pulseGlobe(p) { pulses.push({ lon: p.lon, lat: p.lat, t0: performance.now() }); }
+function countryAt(ev) { const r = gcv.getBoundingClientRect(); const ll = gproj.invert([(ev.clientX - r.left) * GS / r.width, (ev.clientY - r.top) * GS / r.height]); if (!ll || d3.geoDistance(ll, [-rot[0], -rot[1]]) > 1.5) return null; const f = LANDFEATS.find(ft => MAP2N[ft.properties.n] && d3.geoContains(ft, ll)); return f ? MAP2N[f.properties.n] : null; }
+function initGlobe() {
+  computeStats(); drawGlobe(); requestAnimationFrame(frame);
+  let moved = false, last = null;
+  d3.select(gcv).call(d3.drag().on("start", ev => { dragging = true; moved = false; last = [ev.x, ev.y]; hideTip(); }).on("drag", ev => { const dx = ev.x - last[0], dy = ev.y - last[1]; last = [ev.x, ev.y]; if (Math.abs(dx) + Math.abs(dy) > 2) moved = true; const kk = GS / (gcv.clientWidth || GS); rot[0] += dx * kk * 0.35; rot[1] = Math.max(-75, Math.min(75, rot[1] - dy * kk * 0.35)); dirty = true; }).on("end", ev => { dragging = false; idleT = performance.now(); if (!moved && ev.sourceEvent) { const nn = countryAt(ev.sourceEvent); if (nn) flyTo(nn); } }));
+  gcv.addEventListener("mousemove", ev => { if (dragging) return; const nn = countryAt(ev); if (nn) { showTip(ev, `<b>${nn}</b><br>${PEOPLE.filter(p => p.country === nn).length} respondents · median horizon ${STATS.medH[nn]} years<br><i>Click to fly there</i>`); gcv.style.cursor = "pointer"; } else { hideTip(); gcv.style.cursor = "grab"; } });
+  gcv.addEventListener("mouseleave", hideTip);
+  window.addEventListener("resize", () => { dirty = true; });
+  const stepsEl = [...document.querySelectorAll(".step")];
+  const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { storyStep = +e.target.dataset.step; stepsEl.forEach(s => s.classList.toggle("on", s === e.target)); dirty = true; e.target.querySelectorAll("[data-count]").forEach(countUp); } }); }, { threshold: .6 });
+  stepsEl.forEach(s => io.observe(s)); stepsEl[0].classList.add("on");
+  $("#enter").addEventListener("click", () => stepsEl[0].scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "center" }));
+  $("#toCompare").addEventListener("click", () => document.getElementById("compare").scrollIntoView({ behavior: REDUCED ? "auto" : "smooth" }));
+  $("#toExplore").addEventListener("click", () => document.getElementById("explore").scrollIntoView({ behavior: REDUCED ? "auto" : "smooth" }));
+  $("#globeLive").textContent = `${PEOPLE.length.toLocaleString()} people on the globe`;
+}
+function flyTo(nn) { const c = CENT[nn]; if (!c) return; flying = true; hideTip(); const ip = d3.interpolate(rot.slice(), [-c[0], -c[1]]); const t0 = performance.now(), D = REDUCED ? 0 : 1100; (function tick(now) { const t = D ? Math.min(1, (now - t0) / D) : 1; const e = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; rot = ip(e); dirty = true; if (t < 1) requestAnimationFrame(tick); else { flying = false; idleT = performance.now() + 5000; selectCountry(nn); document.getElementById("explore").scrollIntoView({ behavior: REDUCED ? "auto" : "smooth" }); } })(t0); }
+function countUp(el) { if (el.dataset.done) return; el.dataset.done = "1"; const target = STATS[el.dataset.count] || 0; if (REDUCED) { el.textContent = target.toLocaleString(); return; } const t0 = performance.now(), D = 900; (function f(now) { const t = Math.min(1, (now - t0) / D); el.textContent = Math.round(target * (1 - Math.pow(1 - t, 3))).toLocaleString(); if (t < 1) requestAnimationFrame(f); })(t0); }
+
+// ---------- future glyph: a generative form from one person's answers
+function arcPath(cx, cy, r, a0, a1) { const x0 = cx + r * Math.cos(a0), y0 = cy + r * Math.sin(a0), x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1); return `M${x0.toFixed(1)},${y0.toFixed(1)} A${r},${r} 0 ${a1 - a0 > Math.PI ? 1 : 0} 1 ${x1.toFixed(1)},${y1.toFixed(1)}`; }
+const PETALS = [["T", "Time", "how far ahead the future is"], ["D", "Detail", "how clearly it is pictured"], ["H", "Hope", "how hopeful it is"], ["A", "Agency", "how much the person can shape it"], ["P", "People", "how many people it includes"]];
+function glyphSVG(d, sch, narr, seedStr, size = 200, labels = false) {
+  let h = 2166136261; for (const ch of seedStr) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } const r = () => { h = (Math.imul(h, 1664525) + 1013904223) >>> 0; return h / 4294967296; };
+  const cx = size / 2, cy = size / 2, R = size / 2 - (labels ? 16 : 6); const vals = [d.horizon, d.rich, d.valence, d.agency, d.boundary]; const cols = sch && sch.length ? sch.map(s => S[s].col) : ["var(--you)"];
+  const rot0 = labels ? -Math.PI / 2 : r() * Math.PI * 2; let out = "", lab = "";
+  for (let i = 0; i < 5; i++) { const a = rot0 + i * 2 * Math.PI / 5; const len = R * (0.3 + 0.65 * (vals[i] || 0) / 100); const w = R * (0.14 + 0.16 * r()); const mx = cx + len * .45 * Math.cos(a), my = cy + len * .45 * Math.sin(a); const tip = [cx + len * Math.cos(a), cy + len * Math.sin(a)]; const l = [mx + w * Math.cos(a - 1.5708), my + w * Math.sin(a - 1.5708)], rr = [mx + w * Math.cos(a + 1.5708), my + w * Math.sin(a + 1.5708)]; const col = cols[i % cols.length]; out += `<path d="M${cx},${cy} Q${l[0].toFixed(1)},${l[1].toFixed(1)} ${tip[0].toFixed(1)},${tip[1].toFixed(1)} Q${rr[0].toFixed(1)},${rr[1].toFixed(1)} ${cx},${cy}Z" fill="${col}" fill-opacity=".5" stroke="${col}" stroke-width="1.2"/>`;
+    if (labels) { const lx = cx + (R + 9) * Math.cos(a), ly = cy + (R + 9) * Math.sin(a); lab += `<circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="7.5" fill="var(--panel)" stroke="${col}" stroke-width="1"/><text x="${lx.toFixed(1)}" y="${(ly + 3.2).toFixed(1)}" text-anchor="middle" font-family="IBM Plex Mono, Menlo, monospace" font-size="8.5" font-weight="500" fill="var(--ink)">${PETALS[i][0]}</text>`; } }
+  const ring = R * 0.42, rc = "var(--ink)";
+  if (narr === "cycle") out += `<circle cx="${cx}" cy="${cy}" r="${ring}" fill="none" stroke="${rc}" stroke-width="1.5"/>`;
+  else if (narr === "steady") out += `<circle cx="${cx}" cy="${cy}" r="${ring}" fill="none" stroke="${rc}" stroke-width="1.2"/><circle cx="${cx}" cy="${cy}" r="${ring * .7}" fill="none" stroke="${rc}" stroke-width="1.2"/>`;
+  else if (narr === "rupture") out += `<path d="${arcPath(cx, cy, ring, 0.3, 5.4)}" fill="none" stroke="${rc}" stroke-width="1.5"/><path d="${arcPath(cx, cy, ring * 1.18, 5.7, 6.1)}" fill="none" stroke="${rc}" stroke-width="1.5"/>`;
+  else { let pth = ""; const N = 80; for (let i = 0; i <= N; i++) { const t = i / N; const a = rot0 + t * 2.2 * 2 * Math.PI; const rad = narr === "progress" ? ring * (0.15 + 0.95 * t) : ring * (1.1 - 0.95 * t); pth += (i ? "L" : "M") + (cx + rad * Math.cos(a)).toFixed(1) + "," + (cy + rad * Math.sin(a)).toFixed(1); } out += `<path d="${pth}" fill="none" stroke="${rc}" stroke-width="1.5" stroke-linecap="round"/>`; }
+  for (let i = 0; i < 14; i++) { const a = r() * 6.283, rad = R * (0.5 + 0.5 * r()); out += `<circle cx="${(cx + rad * Math.cos(a)).toFixed(1)}" cy="${(cy + rad * Math.sin(a)).toFixed(1)}" r="${(0.8 + 1.6 * r()).toFixed(1)}" fill="${cols[i % cols.length]}" fill-opacity=".7"/>`; }
+  return `<svg viewBox="0 0 ${size} ${size}" role="img" aria-label="Future glyph"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--line)"/>${out}${lab}</svg>`;
+}
+const PETAL_LEGEND = `<div class="plegend">${PETALS.map(([k, nm, q], i) => `<span><b>${k}</b> ${nm}<small>${q}</small></span>`).join("")}</div>`;
+const HEX = { "var(--you)": "#C2410C", "var(--ink)": "#111827", "var(--line)": "#DCE2EA", "var(--s1)": "#1F6FB2", "var(--s2)": "#C96A2B", "var(--s3)": "#1E9A6C", "var(--s4)": "#C9961C", "var(--s5)": "#B55A8A", "var(--s6)": "#5B5FC7" };
+function renderGlyph() {
+  const t = $("#you").value.trim(); const svg = glyphSVG(YOU.d, YOU.ys, YOU.narr, t + "|" + JSON.stringify(YOU.d), 200, true);
+  $("#glyphbox").innerHTML = `<div>${svg}</div><div><div class="eyebrow">Your future glyph</div><h3>One of a kind, made from your answers</h3>${PETAL_LEGEND}<p>Each petal is one of your answers, and a longer petal means more. The ring in the middle is the shape you gave your future: ${NARR[YOU.narr].toLowerCase()}. The colors are the themes your future draws on. No two sets of answers produce the same glyph.</p><div class="srow"><button type="button" class="small" id="copyGlyph">Copy glyph as SVG</button><button type="button" class="small" id="addWall">Add to the wall</button></div></div>`;
+  $("#copyGlyph").addEventListener("click", () => { let s = svg; Object.keys(HEX).forEach(kk => { s = s.split(kk).join(HEX[kk]); }); s = s.replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" '); const fail = () => toast("Copy is not available in this viewer."); if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(s).then(() => toast("Glyph copied as SVG. Paste it into a document or an image editor.")).catch(fail); else fail(); });
+  $("#addWall").addEventListener("click", () => { addToWall(svg, t || "My future"); toast("Added to the wall. This prototype keeps it only in your browser session."); document.getElementById("wall").scrollIntoView({ behavior: REDUCED ? "auto" : "smooth" }); });
+}
+
+// ---------- shared wall of futures (simulated visitors)
+let WALL = [], wallTab = "new";
+function buildWall() { let ws = 99; const r = () => { ws = (ws * 1664525 + 1013904223) % 4294967296; return ws / 4294967296; }; WALL = []; for (let i = 0; i < 24; i++) { const p = PEOPLE[Math.floor(r() * PEOPLE.length)]; WALL.push({ svg: glyphSVG(p.dims, p.sch, p.narr, p.text, 140, true), text: p.text, where: `${p.place}, ${p.country}`, shares: Math.floor(r() * r() * 140), age: i * 7 + 2, you: false }); } renderWall(); }
+function addToWall(svg, text) { WALL = WALL.filter(w => !w.you); WALL.unshift({ svg, text, where: "You", shares: 0, age: 0, you: true }); renderWall(); }
+function renderWall() { const list = [...WALL].sort((a, b) => wallTab === "new" ? a.age - b.age : b.shares - a.shares); $("#wallGrid").innerHTML = list.map(w => `<div class="wtile${w.you ? " you" : ""}">${w.svg}<div class="t">${w.text}</div><div class="m"><span>${w.where}</span><span>${w.you ? "added just now" : "added " + w.age + " min ago"}</span></div><div class="m"><span>${w.shares === 1 ? "shared once" : "shared " + w.shares + " times"}</span></div></div>`).join(""); }
+$("#wallKey").innerHTML = `<div>${glyphSVG({ horizon: 70, rich: 60, valence: 80, agency: 55, boundary: 90 }, ["gen", "nature", "duty"], "progress", "example", 200, true)}<div class="hint" style="padding:6px 0 0;text-align:center">Example glyph</div></div><div>
+  <p><b>What you are looking at.</b> Each tile below is one visitor who answered the questionnaire and chose to add their future to this wall. The picture is their <b>future glyph</b>, a shape drawn from their answers, shown with the first words of the future they described, where they answered from, and when.</p>
+  <p><b>The five petals, one per answer.</b> A longer petal means more.</p>
+  ${PETAL_LEGEND}
+  <p><b>The ring in the middle</b> is the shape the person gave their future: a spiral outward for “things get better”, a spiral inward for “things get worse”, a closed circle for “rise and fall”, a broken circle for “a break, then something new”, and two rings for “much the same”. <b>The colors</b> are the themes the future draws on, matching the colored chips at the top of the page.</p>
+  <p>No two sets of answers produce the same glyph. To add yours, answer the questionnaire and press “Add to the wall”. In this prototype the wall is simulated and your glyph stays only in your browser; in the live Atlas it would be added with your consent.</p></div>`;
+$("#tabNew").addEventListener("click", () => { wallTab = "new"; $("#tabNew").classList.add("on"); $("#tabTop").classList.remove("on"); renderWall(); });
+$("#tabTop").addEventListener("click", () => { wallTab = "top"; $("#tabTop").classList.add("on"); $("#tabNew").classList.remove("on"); renderWall(); });
+buildWall();
+
+// ---------- chip hover shows a voice from the corpus
+chips.querySelectorAll(".chip").forEach(b => {
+  b.addEventListener("mouseenter", ev => { const pool = PEOPLE.filter(p => p.sch.includes(b.dataset.id)); const p = pool[Math.floor(Math.random() * pool.length)]; if (p) showTip(ev, `<i>“${p.text.length > 150 ? p.text.slice(0, 150) + "…" : p.text}”</i><br>${p.place}, ${p.country}`); });
+  b.addEventListener("mousemove", ev => { if (tip.style.display === "block") { tip.style.left = Math.min(ev.clientX + 12, window.innerWidth - 290) + "px"; tip.style.top = (ev.clientY + 12) + "px"; } });
+  b.addEventListener("mouseleave", hideTip);
+});
+
+// ---------- live counter and feed
+let n = 12480; const countEl = $("#count"); countEl.textContent = n.toLocaleString();
+const feedEl = $("#feed");
+function arrive() { const p = pick(PEOPLE); n += rint(1, 3); countEl.textContent = n.toLocaleString(); feedEl.innerHTML = `<span class="eyebrow">Just added</span><br>A ${p.ageb} ${p.gender.toLowerCase()} in ${p.place}, ${p.country}, imagining <b>${S[p.sch[0]].name.toLowerCase()}</b>, ${p.y} years ahead.`; if (p.lon || p.lat) pulseGlobe(p); }
+arrive(); setInterval(arrive, 6000);
+render();
+})();
+</script>
